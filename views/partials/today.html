@@ -44,12 +44,7 @@
             <label for="recipient-name" class="control-label col-sm-2">类型:</label>
             <div class="col-sm-10">
               <select id="type" class="form-control">
-                <option value="1">阅读</option>
-                <option value="2">学习</option>
-                <option value="3">编码</option>
-                <option value="4">游戏</option>
-                <option value="5">开会</option>
-                <option value="6">文档</option>
+                <option ng-repeat="billType in billTypes" value="{{billType.id}}">{{billType.name}}</option>
               </select>
             </div>
           </div>

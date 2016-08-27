@@ -9,7 +9,13 @@ angular.module('timeBill.today', ['ngRoute'])
   });
 }])
 
-.controller('todayContrl', ['$scope', function($scope) {
+.controller('todayContrl', ['$scope', '$http', function($scope, $http) {
+  //TODO 获取流水类型
+  var loadingBillTypes = $http.get('/api/bill-types');
+  loadingBillTypes.success(function(data, status, headers, config) {
+    $scope.billTypes = data;
+  });
+
   //TODO 获取今天的流水记录
   var records = [{
     id: 1,
