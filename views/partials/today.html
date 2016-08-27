@@ -1,0 +1,88 @@
+<h1>{{today | date:'yyyy-MM-dd'}} 时间账单</h1>
+
+<button class="btn btn-primary btn-sm" type="submit" data-toggle="modal" data-target="#addRecordModal" ng-click="showAddRecord()">
+  添加
+</button>
+
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>类型</th>
+      <th>描述</th>
+      <th>开始时间</th>
+      <th>结束时间</th>
+      <th>时长</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="record in records">
+      <td>{{record.typeName}}</td>
+      <td>{{record.detail}}</td>
+      <td>{{record.startTime}}</td>
+      <td>{{record.endTime}}</td>
+      <td>{{formatDurationTime(record.durationTime)}}</td>
+      <td>
+        <button class="btn btn-info btn-sm" type="submit" ng-click="showEditRecord(record.id)">编辑</button>
+        <button class="btn btn-danger btn-sm" type="submit" ng-click="showDeleteRecord(record.id)">删除</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- add record modal -->
+<div id="addRecordModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加一笔时间账</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+          <div class="form-group">
+            <label for="recipient-name" class="control-label col-sm-2">类型:</label>
+            <div class="col-sm-10">
+              <select id="type" class="form-control">
+                <option value="1">阅读</option>
+                <option value="2">学习</option>
+                <option value="3">编码</option>
+                <option value="4">游戏</option>
+                <option value="5">开会</option>
+                <option value="6">文档</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label col-sm-2">描述:</label>
+            <div class="col-sm-10">
+              <textarea id="detail" class="form-control"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label col-sm-2">开始时间:</label>
+            <div class="col-sm-10">
+              <input id="start-time" type="datetime-local" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label col-sm-2">结束时间:</label>
+            <div class="col-sm-10">
+              <input id="end-time" type="datetime-local" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label col-sm-2">时长:</label>
+            <div class="col-sm-10">
+              <inputid="duration-time" type="text" class="form-control" disabled >
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="addRecord()">取消</button>
+        <button type="button" class="btn btn-primary">添加</button>
+      </div>
+    </div>
+  </div>
+</div>

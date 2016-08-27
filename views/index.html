@@ -1,34 +1,40 @@
-<html ng-app="myApp">
+<!DOCTYPE html>
+<html ng-app="timeBill">
   <head>
     <meta charset="utf-8" />
     <base href="/" />
     <title>Angular Express Seed App</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/app.css" />
   </head>
 
   <body>
-    <div ng-controller="AppCtrl">
-      <h2>Hello {{name}}</h2>
-      <ul class="menu">
-        <li>
-          <a href="view1">view1</a>
-        </li>
-        <li>
-          <a href="view2">view2</a>
-        </li>
-      </ul>
-
-      <div ng-view>
-
-      </div>
-
+    <div class="main-container">
+      <aside class="aside-left">
+        <ul class="nav nav-pills nav-stacked">
+          <li><a class="side-menu-item" href="/today">今天</a></li>
+          <li><a class="side-menu-item" href="/week">本周</a></li>
+          <li><a class="side-menu-item" href="/month">本月</a></li>
+          <li><a class="side-menu-item" href="/year">今年</a></li>
+          <li><a class="side-menu-item" href="/all">全部</a></li>
+        </ul>
+      </aside>
+      <div class="main" ng-view></div>
     </div>
   </body>
 
+  <script src="js/lib/jquery/jquery-1.11.0.min.js"></script>
   <script src="js/lib/angular/angular.js" ></script>
+  <script src="js/lib/angular/angular-route.min.js" ></script>
   <script src="js/app.js" ></script>
   <script src="js/services.js" ></script>
   <script src="js/controllers.js" ></script>
+  <script src="js/today.js"></script>
+  <script src="js/week.js"></script>
+  <script src="js/month.js"></script>
+  <script src="js/year.js"></script>
+  <script src="js/all.js"></script>
   <script src="js/filters.js" ></script>
   <script src="js/directives.js" ></script>
+  <script src="js/lib/bootstrap/bootstrap.min.js"></script>
 </html>

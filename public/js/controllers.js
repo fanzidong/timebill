@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
+angular.module('timeBill.controllers', []).
   controller('AppCtrl', function ($scope, $http) {
 
     $http({
@@ -15,13 +15,5 @@ angular.module('myApp.controllers', []).
     error(function (data, status, headers, config) {
       $scope.name = 'Error!';
     });
-
-  }).
-  controller('MyCtrl1', function ($scope) {
-    // write Ctrl here
-
-  }).
-  controller('MyCtrl2', function ($scope) {
-    // write Ctrl here
 
   });

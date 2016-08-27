@@ -1,30 +1,30 @@
 /* app css stylesheet */
-
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+html, body {
+  height: 100%;
 }
 
-.menu:before {
-  content: "[";
+.main-container {
+  height: 100%;
 }
 
-.menu:after {
-  content: "]";
+.main-container > .aside-left,
+.main-container > .main {
+  position: absolute;
+  top: 0;
+  height: 100%;
 }
 
-.menu > li {
-  display: inline;
+.main-container > .aside-left {
+  width: 260px;
+  background-color: #516bc1;
 }
 
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+.main-container > .main {
+  left: 260px;
+  right: 0;
+  padding: 20px;
 }
 
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+.side-menu-item {
+  color: #fff;
 }
