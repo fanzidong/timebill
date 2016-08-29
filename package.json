@@ -8,7 +8,7 @@
     "express": "~4.1.1",
     "express-error-handler": "*",
     "method-override": "^1.0.0",
-    "mongoose": "^4.5.10",
-    "morgan": "^1.0.0"
+    "morgan": "^1.0.0",
+    "mysql": "^2.11.1"
   }
 }

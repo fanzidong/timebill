@@ -9,47 +9,18 @@ angular.module('timeBill.today', ['ngRoute'])
   });
 }])
 
-.controller('todayContrl', ['$scope', '$http', function($scope, $http) {
-  //TODO 获取流水类型
-  var loadingBillTypes = $http.get('/api/bill-types');
-  loadingBillTypes.success(function(data, status, headers, config) {
-    $scope.billTypes = data;
-  });
-
+.controller('todayContrl', ['$scope', '$http', '$filter', function($scope, $http, $filter) {
   //TODO 获取今天的流水记录
-  var records = [{
-    id: 1,
-    typeId: 1,
-    typeName: '阅读',
-    detail: '订阅',
-    startTime: '2016-08-23 08:30:00',
-    endTime: '2016-08-23 09:30:00',
-    durationTime: 3600
-  }, {
-    id: 2,
-    typeId: 2,
-    typeName: '编码',
-    detail: '100ms频谱',
-    startTime: '2016-08-23 09:30:00',
-    endTime: '2016-08-23 11:00:00',
-    durationTime: 5400
-  }, {
-    id: 3,
-    typeId: 3,
-    typeName: '学习',
-    detail: 'angularJS',
-    startTime: '2016-08-23 11:00:00',
-    endTime: '2016-08-23 12:00:00',
-    durationTime: 3600
-  }];
-
-  $scope.records = records;
+  var loadingTimeBills = $http.get('/api/time-bills/today');
+  loadingTimeBills.success(function(data, status, headers, config) {
+    $scope.timeBills = data;
+  });
 
   $scope.today = new Date();
 
   $scope.formatDurationTime = function(durationTime) {
     var str = '',
-      remain;
+      remain = durationTime;
     if(durationTime >= 3600) {
       var hour = Math.floor(durationTime / 3600);
       str += hour + '小时';
@@ -62,8 +33,16 @@ angular.module('timeBill.today', ['ngRoute'])
     return str;
   }
 
-  $scope.showAddRecord = function() {
-
+  $scope.showAddBill = function() {
+    // 加载所有账单类型
+    var loadingBillTypes = $http.get('/api/bill-types');
+    loadingBillTypes.success(function(data, status, headers, config) {
+      $scope.billTypes = data;
+      $('#timeBillModal').modal('show');
+      $scope.timeBill = {
+        startTime: $filter('date')(new Date(),'yyyy-MM-dd HH:mm')
+      };
+    });
   }
 
   $scope.addRecord = function() {

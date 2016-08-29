@@ -5,6 +5,7 @@
     <base href="/" />
     <title>Angular Express Seed App</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css" />
     <link rel="stylesheet" href="/css/app.css" />
   </head>
 
@@ -18,9 +19,20 @@
           <li><a class="side-menu-item" href="/year">今年</a></li>
           <li><a class="side-menu-item" href="/all">全部</a></li>
         </ul>
+
+        <br />
+
+        <ul class="nav nav-pills nav-stacked nav-bottom">
+          <li>
+            <a class="side-menu-item" href="/bill-type">账单类型</a>
+          </li>
+        </ul>
       </aside>
-      <div class="main" ng-view></div>
+      <div class="main container" ng-view></div>
     </div>
+
+
+
   </body>
 
   <script src="js/lib/jquery/jquery-1.11.0.min.js"></script>
@@ -34,7 +46,10 @@
   <script src="js/month.js"></script>
   <script src="js/year.js"></script>
   <script src="js/all.js"></script>
+  <script src="js/bill-type.js"></script>
   <script src="js/filters.js" ></script>
   <script src="js/directives.js" ></script>
   <script src="js/lib/bootstrap/bootstrap.min.js"></script>
+  <script src="js/lib/bootstrap/bootstrap-datetimepicker.min.js"></script>
+  
 </html>

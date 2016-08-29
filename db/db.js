@@ -12,7 +12,8 @@ var option = {
   port: db_port,
   user: username,
   password: password,
-  database: db_name
+  database: db_name,
+  dateStrings: true
 };
 
 exports.exec = function(sqls, data, callback) {

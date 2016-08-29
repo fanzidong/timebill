@@ -10,6 +10,7 @@ angular.module('timeBill', [
   'timeBill.month',
   'timeBill.year',
   'timeBill.all',
+  'timeBill.billType',
   'timeBill.filters',
   'timeBill.services',
   'timeBill.directives'

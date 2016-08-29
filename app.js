@@ -26,6 +26,7 @@ app.set('views', __dirname + '/views');
 app.engine('.html', require('ejs').__express);
 app.set('view engine', 'html');
 app.use(morgan('dev'));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -54,9 +55,12 @@ app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 
 // JSON API
-app.get('/api/name', api.name);
+app.get('/api/time-bills/today', api.loadTodayTimeBills);
 
 app.get('/api/bill-types', api.billTypes);
+app.post('/api/bill-types', api.addBillTypes);
+app.put('/api/bill-types/:id', api.editBillTypes);
+app.delete('/api/bill-types/:id', api.deleteBillType);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

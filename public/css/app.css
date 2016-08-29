@@ -22,9 +22,22 @@ html, body {
 .main-container > .main {
   left: 260px;
   right: 0;
-  padding: 20px;
 }
 
 .side-menu-item {
   color: #fff;
+}
+
+.nav-bottom {
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.toolbar {
+  margin: 20px 0;
+}
+
+.modal-footer-center {
+  text-align: center;
 }
