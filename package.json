@@ -4,10 +4,11 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.0.2",
-    "express-error-handler": "*",
-    "express": "~4.1.1",
     "ejs": "~2.5.1",
+    "express": "~4.1.1",
+    "express-error-handler": "*",
     "method-override": "^1.0.0",
+    "mongoose": "^4.5.10",
     "morgan": "^1.0.0"
   }
 }
