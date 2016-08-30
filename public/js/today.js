@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('timeBill.today', ['ngRoute'])
+angular.module('timeBill.today', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.dateTimeInput'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/today', {
@@ -40,22 +40,37 @@ angular.module('timeBill.today', ['ngRoute'])
       $scope.billTypes = data;
       $('#timeBillModal').modal('show');
       $scope.timeBill = {
-        startTime: $filter('date')(new Date(),'yyyy-MM-dd HH:mm')
+        typeId: 1,
+        startTime: new Date() //$filter('date')(new Date(),'yyyy-MM-dd HH:mm')
       };
     });
   }
 
-  $scope.addRecord = function() {
-
+  $scope.timeChanged = function() {
+    $scope.timeBill.startTime.setSeconds(0);
+    $scope.timeBill.startTime.setMilliseconds(0)
+    $scope.timeBill.endTime.setSeconds(0);
+    $scope.timeBill.endTime.setMilliseconds(0)
+    $scope.timeBill.durationTime = ($scope.timeBill.endTime.getTime() - $scope.timeBill.startTime.getTime()) / 1000;
   }
+
+  $scope.addTimeBill = function() {
+    console.log($scope.timeBill);
+  }
+
+
 
   /**
    * 展示编辑记录窗口
    * @param  {Integer} id 时间账单的index
    */
-  $scope.showEditRecord = function(id) {
-    console.log(id)
-
+  $scope.showEditBill = function(timeBill) {
+    var loadingBillTypes = $http.get('/api/bill-types');
+    loadingBillTypes.success(function(data, status, headers, config) {
+      $scope.billTypes = data;
+      $('#timeBillModal').modal('show');
+      $scope.timeBill = timeBill;
+    });
   }
 
   /**

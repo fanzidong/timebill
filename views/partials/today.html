@@ -22,11 +22,11 @@
     <tr ng-repeat="timebill in timeBills">
       <td>{{timebill.typeName}}</td>
       <td>{{timebill.detail}}</td>
-      <td>{{timebill.startTime}}</td>
-      <td>{{timebill.endTime}}</td>
+      <td>{{timebill.startTime | date : 'yyyy-MM-dd HH:mm'}}</td>
+      <td>{{timebill.endTime | date : 'yyyy-MM-dd HH:mm'}}</td>
       <td>{{formatDurationTime(timebill.durationTime)}}</td>
       <td>
-        <button class="btn btn-info btn-xs" type="submit" ng-click="showEditRecord(timebill.id)">
+        <button class="btn btn-info btn-xs" type="submit" ng-click="showEditBill(timebill)">
           <span class="glyphicon glyphicon-edit"></span>
           编辑
         </button>
@@ -52,49 +52,66 @@
           <div class="form-group">
             <label for="recipient-name" class="control-label col-sm-2">类型:</label>
             <div class="col-sm-10">
-              <select id="type" class="form-control">
-                <option ng-repeat="billType in billTypes" value="{{billType.id}}">{{billType.name}}</option>
+              <select id="type" class="form-control" ng-model="timeBill.typeId" ng-options="billType.id as billType.name for billType in billTypes">
               </select>
             </div>
           </div>
           <div class="form-group">
             <label for="message-text" class="control-label col-sm-2">描述:</label>
             <div class="col-sm-10">
-              <textarea id="detail" class="form-control"></textarea>
+              <textarea id="detail" class="form-control" ng-model="timeBill.detail"></textarea>
             </div>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="control-label col-sm-2">开始时间:</label>
             <div class="col-sm-10">
-              <div class="input-append date form_datetime">
-                <input id="start-time" class="form-control" size="16" type="text" ng-model="timeBill.startTime" readonly />
-                <span class="add-on"><i class="icon-th"></i></span>
+              <div class="dropdown">
+                <a class="dropdown-toggle" id="dropdown-start" role="button" data-toggle="dropdown" data-target="#" href="#">
+                  <div class="input-group">
+                    <input type="text" data-date-time-input="YYYY-MM-DD HH:mm" class="form-control" data-ng-model="timeBill.startTime">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </div>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                  <datetimepicker data-ng-model="timeBill.startTime" data-on-set-time="timeChanged()" data-before-render="beforeDatePickerRender($view, $dates, $leftDate, $upDate, $rightDate)" data-datetimepicker-config="{ dropdownSelector: '#dropdown-start' }"/>
+                </ul>
               </div>
             </div>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="control-label col-sm-2">结束时间:</label>
             <div class="col-sm-10">
-              <input id="end-time" type="datetime-local" class="form-control">
+              <div class="dropdown">
+                <a class="dropdown-toggle" id="dropdown-end" role="button" data-toggle="dropdown" data-target="#" href="#">
+                  <div class="input-group">
+                    <input type="text" data-date-time-input="YYYY-MM-DD HH:mm" class="form-control" data-ng-model="timeBill.endTime">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                  </div>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                  <datetimepicker data-ng-model="timeBill.endTime" data-on-set-time="timeChanged()" data-before-render="beforeDatePickerRender($view, $dates, $leftDate, $upDate, $rightDate)" data-datetimepicker-config="{ dropdownSelector: '#dropdown-end' }"/>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="form-group">
             <label for="recipient-name" class="control-label col-sm-2">时长:</label>
             <div class="col-sm-10">
-              <inputid="duration-time" type="text" class="form-control" disabled >
+              <input id="duration-time" type="text" class="form-control" value="{{formatDurationTime(timeBill.durationTime)}}" disabled >
             </div>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="addRecord()">取消</button>
-        <button type="button" class="btn btn-primary">添加</button>
+      <div class="modal-footer modal-footer-center">
+        <button type="button" class="btn btn-primary" ng-click="addTimeBill()">
+          <span class="glyphicon glyphicon-ok"></span>
+          添加
+        </button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+          <span class="glyphicon glyphicon-remove"></span>
+          取消
+        </button>
       </div>
     </div>
   </div>
 </div>
-<script>
-$(".form_datetime").datetimepicker({
-    format: "yyyy-mm-dd hh:ii:ss"
-});
-</script>
