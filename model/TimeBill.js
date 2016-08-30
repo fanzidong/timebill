@@ -20,6 +20,7 @@ TimeBill.loadTimeBills = function(data, callback) {
   if(data.endTime) {
     querySql += ' AND startTime <= "' + data.endTime + '"';
   }
+  querySql += ' ORDER BY startTime asc';
 console.log(querySql);
   db.exec(querySql, [], function(err, rows) {
     callback(err, rows);

@@ -67,11 +67,21 @@ exports.deleteBillType = function(req, res) {
 
 exports.loadTodayTimeBills = function(req, res) {
   TimeBill.loadTimeBills({
-    startTime: moment().format('YYYY-MM-DD 00:00:00'),
+    startTime: moment().format('2016-01-01 00:00:00'),
     endTime: moment().format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
-    console.log(rows[0].startTime)
-    console.log(moment(rows[0].startTime).format('YYYY-MM-DD HH:mm'))
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.json(rows);
+    }
+  });
+};
+
+exports.loadAllTimeBills = function(req, res) {
+  TimeBill.loadTimeBills({}, function(err, rows) {
     if(err) {
       res.status(500).json({
         msg: err

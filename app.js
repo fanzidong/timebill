@@ -4,6 +4,10 @@
  */
 
 var express = require('express'),
+  cookieParser = require('cookie-parser'),
+  session = require('express-session'),
+  flash = require('express-flash'),
+  passport = require('passport'),
   bodyParser = require('body-parser'),
   methodOverride = require('method-override'),
   errorHandler = require('express-error-handler'),
@@ -25,6 +29,10 @@ app.set('port', process.env.PORT || 8000);
 app.set('views', __dirname + '/views');
 app.engine('.html', require('ejs').__express);
 app.set('view engine', 'html');
+//app.use(cookieParser());
+//app.use(passport.initialize());
+//app.use(passport.session());
+//app.use(flash());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -59,6 +67,8 @@ app.get('/api/time-bills/today', api.loadTodayTimeBills);
 app.post('/api/time-bills', api.addTimeBill);
 app.put('/api/time-bills/:id', api.editTimeBill);
 app.delete('/api/time-bills/:id', api.deleteTimeBill);
+
+app.get('/api/time-bills/all', api.loadAllTimeBills);
 
 app.get('/api/bill-types', api.billTypes);
 app.post('/api/bill-types', api.addBillTypes);
