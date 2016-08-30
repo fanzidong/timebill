@@ -3,6 +3,7 @@
  */
 var BillType = require('../model/BillType.js');
 var TimeBill = require('../model/TimeBill.js');
+var moment = require('moment');
 
 exports.name = function (req, res) {
   res.json({
@@ -66,9 +67,11 @@ exports.deleteBillType = function(req, res) {
 
 exports.loadTodayTimeBills = function(req, res) {
   TimeBill.loadTimeBills({
-    startTime: '2016-08-29 00:00:00',
-    endTime: '2016-08-29 23:59:59'
+    startTime: moment().format('YYYY-MM-DD 00:00:00'),
+    endTime: moment().format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
+    console.log(rows[0].startTime)
+    console.log(moment(rows[0].startTime).format('YYYY-MM-DD HH:mm'))
     if(err) {
       res.status(500).json({
         msg: err
@@ -78,3 +81,50 @@ exports.loadTodayTimeBills = function(req, res) {
     }
   });
 };
+
+exports.addTimeBill = function(req, res) {
+  var timeBill = new TimeBill(req.body);
+  timeBill.save(function(err) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    }else {
+      res.json({
+        msg: '添加成功'
+      });
+    }
+  });
+}
+
+exports.editTimeBill = function(req, res) {
+  var timeBill = new TimeBill(req.body);
+  timeBill.save(function(err) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    }else {
+      res.json({
+        msg: '编辑成功'
+      });
+    }
+  });
+}
+
+exports.deleteTimeBill = function(req, res) {
+  var timeBill = new TimeBill({
+    id: req.params.id
+  });
+  timeBill.delete(function(err) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    }else {
+      res.json({
+        msg: '删除成功'
+      });
+    }
+  });
+}

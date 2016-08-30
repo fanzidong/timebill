@@ -56,6 +56,9 @@ app.get('/partials/:name', routes.partials);
 
 // JSON API
 app.get('/api/time-bills/today', api.loadTodayTimeBills);
+app.post('/api/time-bills', api.addTimeBill);
+app.put('/api/time-bills/:id', api.editTimeBill);
+app.delete('/api/time-bills/:id', api.deleteTimeBill);
 
 app.get('/api/bill-types', api.billTypes);
 app.post('/api/bill-types', api.addBillTypes);
