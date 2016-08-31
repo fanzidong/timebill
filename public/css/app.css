@@ -22,6 +22,7 @@ html, body {
 .main-container > .main {
   left: 260px;
   right: 0;
+  overflow-y: scroll;
 }
 
 .side-menu-item {
