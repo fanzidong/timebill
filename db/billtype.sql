@@ -1,22 +1,22 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
-Source Server Version : 50624
-Source Host           : localhost:3306
+Source Server         : nm3000
+Source Server Version : 50614
+Source Host           : localhost:3003
 Source Database       : timebill
 
 Target Server Type    : MYSQL
-Target Server Version : 50624
+Target Server Version : 50614
 File Encoding         : 65001
 
-Date: 2016-08-31 22:46:13
+Date: 2016-09-01 20:28:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for billtype
+-- Table structure for `billtype`
 -- ----------------------------
 DROP TABLE IF EXISTS `billtype`;
 CREATE TABLE `billtype` (
