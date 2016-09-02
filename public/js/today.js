@@ -10,13 +10,30 @@ angular.module('timeBill.today', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
 }])
 
 .controller('todayContrl', ['$scope', '$http', '$filter', function($scope, $http, $filter) {
-  //TODO 获取今天的流水记录
+  // 加载所有账单类型
+  var loadingBillTypes = $http.get('/api/bill-types');
+  loadingBillTypes.success(function(data, status, headers, config) {
+    $scope.billTypes = data;
+
+    var typeMap = {};
+    $.each(data, function(i, billType) {
+      typeMap[billType.id] = billType.name;
+    });
+    $scope.typeMap = typeMap;
+  });
+
+  //获取今天的流水记录
   var loadingTimeBills = $http.get('/api/time-bills/today');
   loadingTimeBills.success(function(data, status, headers, config) {
-    $scope.timeBills = data//jQuery.parseJSON(data);
+    $scope.timeBills = data;
+    _summaryBills(data);
   });
 
   $scope.today = new Date();
+
+  $scope.hasDone = function(timeBill) {
+    return !!timeBill.endTime;
+  }
 
   $scope.formatDurationTime = function(durationTime) {
     var str = '',
@@ -34,18 +51,13 @@ angular.module('timeBill.today', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
   }
 
   $scope.showAddBill = function() {
-    // 加载所有账单类型
-    var loadingBillTypes = $http.get('/api/bill-types');
-    loadingBillTypes.success(function(data, status, headers, config) {
-      $scope.billTypes = data;
-      $('#timeBillModal').modal('show');
-      $scope.action = 'add';
-      $scope.actionName = '添加';
-      $scope.timeBill = {
-        typeId: 1,
-        startTime: new Date() //$filter('date')(new Date(),'yyyy-MM-dd HH:mm')
-      };
-    });
+    $('#timeBillModal').modal('show');
+    $scope.action = 'add';
+    $scope.actionName = '添加';
+    $scope.timeBill = {
+      typeId: 1,
+      startTime: new Date() //$filter('date')(new Date(),'yyyy-MM-dd HH:mm')
+    };
   }
 
   $scope.timeChanged = function() {
@@ -106,14 +118,10 @@ angular.module('timeBill.today', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
     if(!angular.isDate(timeBill.endTime) && timeBill.endTime) {
       timeBill.endTime = new Date(timeBill.endTime)
     }
-    var loadingBillTypes = $http.get('/api/bill-types');
-    loadingBillTypes.success(function(data, status, headers, config) {
-      $scope.billTypes = data;
-      $('#timeBillModal').modal('show');
-      $scope.action = 'edit';
-      $scope.actionName = '编辑';
-      $scope.timeBill = timeBill;
-    });
+    $('#timeBillModal').modal('show');
+    $scope.action = 'edit';
+    $scope.actionName = '编辑';
+    $scope.timeBill = timeBill;
   }
 
   function _editTimeBill(timeBill) {
@@ -151,5 +159,51 @@ angular.module('timeBill.today', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
           $scope.timeBills = data;
         });
       })
+  }
+
+  function _summaryBills(timeBills) {
+    var map = {},
+      total = 0;
+    $.each(timeBills, function(i, timeBill) {
+      total += timeBill.durationTime;
+      if(map[timeBill.typeId]) {
+        map[timeBill.typeId] += timeBill.durationTime;
+      } else {
+        map[timeBill.typeId] =  timeBill.durationTime;
+      }
+    });
+
+    var list = [];
+
+    for(var typeId in map) {
+      list.push({
+        typeId: typeId,
+        durationTime: map[typeId],
+        percent: map[typeId] * 100 / total
+      });
+    }
+    list.sort(function(a, b) {
+      return b.durationTime - a.durationTime;
+    });
+
+    $scope.totalDuration = total;
+    $scope.summaryData = list;
+  }
+
+  $scope.getBillTypeNameById = function(typeId) {
+    console.log($scope.typeMap);
+    return $scope.typeMap[typeId] || '未分类';
+  }
+
+  $scope.getProgressColorByRank = function(rank) {
+    if(rank == 0) {
+      return "danger";
+    } else if (rank == 1) {
+      return "warning";
+    } else if (rank == 2) {
+      return "success";
+    } else {
+      return "info"
+    }
   }
 }]);

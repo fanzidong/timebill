@@ -1,22 +1,22 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : nm3000
-Source Server Version : 50614
-Source Host           : localhost:3003
+Source Server         : localhost_3306
+Source Server Version : 50624
+Source Host           : localhost:3306
 Source Database       : timebill
 
 Target Server Type    : MYSQL
-Target Server Version : 50614
+Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-09-02 17:27:39
+Date: 2016-09-02 20:05:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `timebill`
+-- Table structure for timebill
 -- ----------------------------
 DROP TABLE IF EXISTS `timebill`;
 CREATE TABLE `timebill` (
@@ -29,7 +29,7 @@ CREATE TABLE `timebill` (
   PRIMARY KEY (`id`),
   KEY `bill_type_fk` (`typeId`),
   CONSTRAINT `bill_type_fk` FOREIGN KEY (`typeId`) REFERENCES `billtype` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1211 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1276 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of timebill
@@ -1240,3 +1240,68 @@ INSERT INTO `timebill` VALUES ('1207', '订阅', '2016-08-24 13:05:00', '2016-08
 INSERT INTO `timebill` VALUES ('1208', '解决BUG', '2016-08-24 13:30:00', '2016-08-24 15:00:00', '5400', '2');
 INSERT INTO `timebill` VALUES ('1209', '解决BUG', '2016-08-24 15:15:00', '2016-08-24 17:00:00', '6300', '2');
 INSERT INTO `timebill` VALUES ('1210', '订阅', '2016-08-24 17:05:00', '2016-08-24 17:15:00', '600', '1');
+INSERT INTO `timebill` VALUES ('1211', '订阅', '2016-08-25 08:30:00', '2016-08-25 09:00:00', '1800', '1');
+INSERT INTO `timebill` VALUES ('1212', '选书', '2016-08-25 09:00:00', '2016-08-25 09:30:00', '1800', '1');
+INSERT INTO `timebill` VALUES ('1213', '解决BUG', '2016-08-25 09:40:00', '2016-08-25 11:25:00', '6300', '2');
+INSERT INTO `timebill` VALUES ('1214', '订阅', '2016-08-25 11:25:00', '2016-08-25 11:55:00', '1800', '1');
+INSERT INTO `timebill` VALUES ('1215', '时间账单', '2016-08-25 13:15:00', '2016-08-25 14:55:00', '6000', '2');
+INSERT INTO `timebill` VALUES ('1216', '时间账单', '2016-08-25 15:15:00', '2016-08-25 17:30:00', '8100', '2');
+INSERT INTO `timebill` VALUES ('1217', '时间账单', '2016-08-25 18:30:00', '2016-08-25 20:20:00', '6600', '2');
+INSERT INTO `timebill` VALUES ('1218', '订阅', '2016-08-25 20:25:00', '2016-08-25 20:40:00', '900', '1');
+INSERT INTO `timebill` VALUES ('1219', '订阅', '2016-08-26 08:35:00', '2016-08-26 09:10:00', '2100', '1');
+INSERT INTO `timebill` VALUES ('1220', '列出前端优化工作量', '2016-08-26 09:25:00', '2016-08-26 09:45:00', '1200', '5');
+INSERT INTO `timebill` VALUES ('1221', 'license bug', '2016-08-26 09:45:00', '2016-08-26 12:00:00', '8100', '2');
+INSERT INTO `timebill` VALUES ('1222', 'license bug', '2016-08-26 13:00:00', '2016-08-26 14:05:00', '3900', '2');
+INSERT INTO `timebill` VALUES ('1223', '订阅', '2016-08-26 14:10:00', '2016-08-26 15:00:00', '3000', '1');
+INSERT INTO `timebill` VALUES ('1224', '《如何阅读一本书》', '2016-08-26 15:15:00', '2016-08-26 16:35:00', '4800', '1');
+INSERT INTO `timebill` VALUES ('1225', '版本发布', '2016-08-26 16:40:00', '2016-08-26 17:30:00', '3000', '5');
+INSERT INTO `timebill` VALUES ('1226', '订阅', '2016-08-27 08:45:00', '2016-08-27 09:25:00', '2400', '1');
+INSERT INTO `timebill` VALUES ('1227', '解决BUG', '2016-08-27 09:35:00', '2016-08-27 10:20:00', '2700', '2');
+INSERT INTO `timebill` VALUES ('1228', 'angular_express_seed', '2016-08-27 10:35:00', '2016-08-27 11:55:00', '4800', '2');
+INSERT INTO `timebill` VALUES ('1229', '时间账单', '2016-08-27 13:00:00', '2016-08-27 14:20:00', '4800', '2');
+INSERT INTO `timebill` VALUES ('1230', '订阅', '2016-08-27 14:45:00', '2016-08-27 14:55:00', '600', '1');
+INSERT INTO `timebill` VALUES ('1231', '时间账单', '2016-08-27 15:40:00', '2016-08-27 16:30:00', '3000', '2');
+INSERT INTO `timebill` VALUES ('1232', '订阅', '2016-08-28 09:05:00', '2016-08-28 09:10:00', '300', '1');
+INSERT INTO `timebill` VALUES ('1233', '订阅', '2016-08-28 14:45:00', '2016-08-28 14:55:00', '600', '1');
+INSERT INTO `timebill` VALUES ('1234', '订阅', '2016-08-29 08:10:00', '2016-08-29 09:15:00', '3900', '1');
+INSERT INTO `timebill` VALUES ('1235', '频谱优化需求', '2016-08-29 09:25:00', '2016-08-29 09:50:00', '1500', '5');
+INSERT INTO `timebill` VALUES ('1236', '首页整理', '2016-08-29 09:55:00', '2016-08-29 10:45:00', '3000', '2');
+INSERT INTO `timebill` VALUES ('1237', '频谱优化需求', '2016-08-29 10:50:00', '2016-08-29 11:00:00', '600', '5');
+INSERT INTO `timebill` VALUES ('1238', '时间账单-对接mysql', '2016-08-29 11:05:00', '2016-08-29 11:55:00', '3000', '2');
+INSERT INTO `timebill` VALUES ('1239', '时间账单-对接mysql', '2016-08-29 13:05:00', '2016-08-29 15:00:00', '6900', '2');
+INSERT INTO `timebill` VALUES ('1240', '频谱优化需求', '2016-08-29 15:25:00', '2016-08-29 15:35:00', '600', '5');
+INSERT INTO `timebill` VALUES ('1241', '时间账单-对接mysql', '2016-08-29 15:40:00', '2016-08-29 17:05:00', '5100', '2');
+INSERT INTO `timebill` VALUES ('1242', '订阅', '2016-08-29 17:10:00', '2016-08-29 17:30:00', '1200', '1');
+INSERT INTO `timebill` VALUES ('1243', '时间账单-对接mysql', '2016-08-29 18:30:00', '2016-08-29 19:45:00', '4500', '2');
+INSERT INTO `timebill` VALUES ('1244', '家里开发环境配置', '2016-08-29 22:05:00', '2016-08-29 23:00:00', '3300', '2');
+INSERT INTO `timebill` VALUES ('1245', '订阅', '2016-08-30 08:30:00', '2016-08-30 09:20:00', '3000', '1');
+INSERT INTO `timebill` VALUES ('1246', '频谱优化需求', '2016-08-30 09:30:00', '2016-08-30 10:00:00', '1800', '5');
+INSERT INTO `timebill` VALUES ('1247', '时间账单', '2016-08-30 10:05:00', '2016-08-30 11:50:00', '6300', '2');
+INSERT INTO `timebill` VALUES ('1248', '时间账单', '2016-08-30 13:10:00', '2016-08-30 15:00:00', '6600', '2');
+INSERT INTO `timebill` VALUES ('1249', '时间账单', '2016-08-30 15:15:00', '2016-08-30 17:30:00', '8100', '2');
+INSERT INTO `timebill` VALUES ('1250', '订阅', '2016-08-30 18:35:00', '2016-08-30 18:50:00', '900', '1');
+INSERT INTO `timebill` VALUES ('1251', '时间账单-对接mysql', '2016-08-30 18:50:00', '2016-08-30 20:30:00', '6000', '2');
+INSERT INTO `timebill` VALUES ('1252', '时间账单-对接BAE', '2016-08-30 21:15:00', '2016-08-30 22:00:00', '2700', '2');
+INSERT INTO `timebill` VALUES ('1253', '时间账单-对接BAE', '2016-08-30 22:20:00', '2016-08-30 22:50:00', '1800', '2');
+INSERT INTO `timebill` VALUES ('1254', '订阅', '2016-08-31 08:40:00', '2016-08-31 09:20:00', '2400', '1');
+INSERT INTO `timebill` VALUES ('1255', '月总结', '2016-08-31 09:40:00', '2016-08-31 10:00:00', '1200', '5');
+INSERT INTO `timebill` VALUES ('1256', '时间账单-录入数据', '2016-08-31 10:00:00', '2016-08-31 10:30:00', '1800', '2');
+INSERT INTO `timebill` VALUES ('1257', '频谱优化', '2016-08-31 10:40:00', '2016-08-31 12:00:00', '4800', '2');
+INSERT INTO `timebill` VALUES ('1258', '频谱优化', '2016-08-31 13:00:00', '2016-08-31 14:00:00', '3600', '2');
+INSERT INTO `timebill` VALUES ('1259', '时间账单-录入数据', '2016-08-31 14:00:00', '2016-08-31 17:00:00', '10800', '2');
+INSERT INTO `timebill` VALUES ('1260', '时间账单-录入数据', '2016-08-31 18:05:00', '2016-08-31 18:25:00', '1200', '2');
+INSERT INTO `timebill` VALUES ('1261', '时间账单-录入数据', '2016-08-31 21:00:00', '2016-08-31 22:30:00', '5400', '2');
+INSERT INTO `timebill` VALUES ('1262', '订阅', '2016-09-01 08:35:00', '2016-09-01 09:15:00', '2400', '1');
+INSERT INTO `timebill` VALUES ('1263', '时间账单-录入数据', '2016-09-01 09:20:00', '2016-09-01 09:55:00', '2100', '2');
+INSERT INTO `timebill` VALUES ('1264', '频谱优化', '2016-09-01 10:00:00', '2016-09-01 12:00:00', '7200', '2');
+INSERT INTO `timebill` VALUES ('1265', '订阅', '2016-09-01 13:05:00', '2016-09-01 13:30:00', '1500', '1');
+INSERT INTO `timebill` VALUES ('1266', '频谱优化', '2016-09-01 13:35:00', '2016-09-01 17:15:00', '13200', '2');
+INSERT INTO `timebill` VALUES ('1267', '频谱优化', '2016-09-01 18:30:00', '2016-09-01 19:40:00', '4200', '2');
+INSERT INTO `timebill` VALUES ('1268', '时间账单-录入数据', '2016-09-01 19:40:00', '2016-09-01 20:30:00', '3000', '2');
+INSERT INTO `timebill` VALUES ('1269', '订阅', '2016-09-02 08:30:00', '2016-09-02 08:50:00', '1200', '1');
+INSERT INTO `timebill` VALUES ('1270', '频谱优化', '2016-09-02 08:55:00', '2016-09-02 10:00:00', '3900', '2');
+INSERT INTO `timebill` VALUES ('1271', '周例会', '2016-09-02 10:00:00', '2016-09-02 11:25:00', '5100', '7');
+INSERT INTO `timebill` VALUES ('1272', '频谱优化', '2016-09-02 11:25:00', '2016-09-02 12:00:00', '2100', '2');
+INSERT INTO `timebill` VALUES ('1273', '频谱优化', '2016-09-02 13:05:00', '2016-09-02 15:00:00', '6900', '2');
+INSERT INTO `timebill` VALUES ('1274', '频谱优化', '2016-09-02 15:15:00', '2016-09-02 17:30:00', '8100', '2');
+INSERT INTO `timebill` VALUES ('1275', '时间账单-录入数据', '2016-09-02 18:00:00', '2016-09-02 18:30:00', '1800', '2');

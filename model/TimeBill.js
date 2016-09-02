@@ -5,9 +5,9 @@ var moment = require('moment');
 var TimeBill = function(options) {
   this.id = options.id;
   this.detail = options.detail;
-  this.startTime = options.startTime && moment(options.startTime).format('YYYY-MM-DD HH:mm');
-  this.endTime = options.endTime && moment(options.endTime).format('YYYY-MM-DD HH:mm');
-  this.durationTime = options.durationTime;
+  this.startTime = options.startTime ? moment(options.startTime).format('YYYY-MM-DD HH:mm') : null;
+  this.endTime = options.endTime ? moment(options.endTime).format('YYYY-MM-DD HH:mm') : null;
+  this.durationTime = options.durationTime || 0;
   this.typeId = options.typeId;
   this.typeName = options.typeName;
 }
@@ -31,12 +31,19 @@ TimeBill.prototype.save = function(callback) {
   var me = this;
   var saveSql;
 
+  console.log(this);
+
   if(this.id) {
     saveSql = util.format('UPDATE timebill SET detail="%s", startTime="%s", endTime="%s", durationTime=%d, typeId=%d WHERE id=%d',
       this.detail, this.startTime, this.endTime, this.durationTime, this.typeId, this.id);
   } else {
-    saveSql = util.format('INSERT INTO timebill(detail, startTime, endTime, durationTime, typeId) VALUES("%s", "%s", "%s", %d, %d)',
-      this.detail, this.startTime, this.endTime, this.durationTime, this.typeId);
+    if(this.endTime) {
+      saveSql = util.format('INSERT INTO timebill(detail, startTime, endTime, durationTime, typeId) VALUES("%s", "%s", "%s", %d, %d)',
+        this.detail, this.startTime, this.endTime, this.durationTime, this.typeId);
+    } else {
+      saveSql = util.format('INSERT INTO timebill(detail, startTime, typeId) VALUES("%s", "%s", %d)',
+        this.detail, this.startTime, this.typeId);
+    }
   }
 
   db.exec(saveSql, [], function(err, rows) {

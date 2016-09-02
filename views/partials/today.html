@@ -32,6 +32,10 @@
       <td>{{timebill.endTime | date : 'yyyy-MM-dd HH:mm'}}</td>
       <td>{{formatDurationTime(timebill.durationTime)}}</td>
       <td>
+        <!-- <button class="btn btn-primary btn-xs" type="submit" ng-show="!hasDone(timebill)" ng-click="showCompleteBill(timebill)">
+          <span class="glyphicon glyphicon-ok"></span>
+          立即完成
+        </button> -->
         <button class="btn btn-info btn-xs" type="submit" ng-click="showEditBill(timebill)">
           <span class="glyphicon glyphicon-edit"></span>
           编辑
@@ -44,6 +48,20 @@
     </tr>
   </tbody>
 </table>
+
+<div>
+  <p>
+    <span><strong>总计</strong></span>
+    <span>{{formatDurationTime(totalDuration)}}</span>
+  </p>
+
+  <div class="progress" ng-repeat="data in summaryData">
+
+    <div class="progress-bar progress-bar-{{getProgressColorByRank($index)}} progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{data.percent}}%;min-width: 100px;">
+      <span>{{getBillTypeNameById(data.typeId)}}: {{formatDurationTime(data.durationTime)}}</span>
+    </div>
+  </div>
+</div>
 
 <!-- add record modal -->
 <div id="timeBillModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -132,6 +150,31 @@
       </div>
       <div class="modal-body">
         是否确认删除该账单？
+      </div>
+      <div class="modal-footer modal-footer-center">
+        <button type="button" class="btn btn-primary" ng-click="deleteBill(timeBill.id)">
+          <span class="glyphicon glyphicon-ok"></span>
+          确认
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">
+          <span class="glyphicon glyphicon-remove"></span>
+          取消
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- complete time-bill modal -->
+<div id="completeBillModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">提示</h4>
+      </div>
+      <div class="modal-body">
+        是否确认完成该账单？
       </div>
       <div class="modal-footer modal-footer-center">
         <button type="button" class="btn btn-primary" ng-click="deleteBill(timeBill.id)">
