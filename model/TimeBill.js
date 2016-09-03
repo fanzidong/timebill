@@ -21,7 +21,6 @@ TimeBill.loadTimeBills = function(data, callback) {
     querySql += ' AND startTime <= "' + data.endTime + '"';
   }
   querySql += ' ORDER BY startTime asc';
-console.log(querySql);
   db.exec(querySql, [], function(err, rows) {
     callback(err, rows);
   });
@@ -30,8 +29,6 @@ console.log(querySql);
 TimeBill.prototype.save = function(callback) {
   var me = this;
   var saveSql;
-
-  console.log(this);
 
   if(this.id) {
     saveSql = util.format('UPDATE timebill SET detail="%s", startTime="%s", endTime="%s", durationTime=%d, typeId=%d WHERE id=%d',
@@ -55,6 +52,33 @@ TimeBill.prototype.delete = function(callback) {
   var deleteSql = util.format('DELETE FROM timebill WHERE id=%d', this.id);
   db.exec(deleteSql, [], function(err, rows) {
     callback(err);
+  });
+};
+
+TimeBill.getDailySummayInfo = function(data, callback) {
+  var querySql = 'SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) dailyTime FROM timebill A';
+  querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
+  querySql += ' GROUP BY date ORDER BY date';
+  db.exec(querySql, [], function(err, rows) {
+    callback(err, rows);
+  });
+};
+
+TimeBill.getMonthSummayInfo = function(data, callback) {
+  var querySql = 'SELECT DATE_FORMAT(A.date, "%Y-%m") name, SUM(A.dailyTime) durationTime, COUNT(*) dayNum FROM (SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) dailyTime FROM timebill A';
+  querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
+  querySql += ' GROUP BY date) A GROUP BY name';
+  db.exec(querySql, [], function(err, rows) {
+    callback(err, rows);
+  });
+};
+
+TimeBill.getTypeSummaryInfo = function(data, callback) {
+  var querySql = 'SELECT B.name typeName, SUM(A.durationTime) dailyTime FROM timebill A LEFT JOIN billtype B ON A.typeId=B.id';
+  querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
+  querySql += ' GROUP BY typeId ORDER BY dailyTime DESC';
+  db.exec(querySql, [], function(err, rows) {
+    callback(err, rows);
   });
 };
 

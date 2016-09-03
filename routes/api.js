@@ -138,3 +138,93 @@ exports.deleteTimeBill = function(req, res) {
     }
   });
 }
+
+exports.loadWeekDailySummayInfo = function(req, res) {
+  TimeBill.getDailySummayInfo({
+    startTime: moment().startOf('isoWeek').format('YYYY-MM-DD 00:00:00'),
+    endTime: moment().endOf('isoWeek').format('YYYY-MM-DD 23:59:59')
+  }, function(err, rows) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.json(rows);
+    }
+  });
+}
+
+exports.loadWeekTypeSummaryInfo = function(req, res) {
+  TimeBill.getTypeSummaryInfo({
+    startTime: moment().startOf('isoWeek').format('YYYY-MM-DD 00:00:00'),
+    endTime: moment().endOf('isoWeek').format('YYYY-MM-DD 23:59:59')
+  }, function(err, rows) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.json(rows);
+    }
+  });
+}
+
+exports.loadMonthDailySummayInfo = function(req, res) {
+  TimeBill.getDailySummayInfo({
+    startTime: moment().startOf('month').format('YYYY-MM-DD 00:00:00'),
+    endTime: moment().endOf('month').format('YYYY-MM-DD 23:59:59')
+  }, function(err, rows) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.json(rows);
+    }
+  });
+}
+
+exports.loadMonthTypeSummaryInfo = function(req, res) {
+  TimeBill.getTypeSummaryInfo({
+    startTime: moment().startOf('month').format('YYYY-MM-DD 00:00:00'),
+    endTime: moment().endOf('month').format('YYYY-MM-DD 23:59:59')
+  }, function(err, rows) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.json(rows);
+    }
+  });
+}
+
+exports.loadYearDailySummayInfo = function(req, res) {
+  TimeBill.getMonthSummayInfo({
+    startTime: moment().startOf('year').format('YYYY-MM-DD 00:00:00'),
+    endTime: moment().endOf('year').format('YYYY-MM-DD 23:59:59')
+  }, function(err, rows) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.json(rows);
+    }
+  });
+}
+
+exports.loadYearTypeSummaryInfo = function(req, res) {
+  TimeBill.getTypeSummaryInfo({
+    startTime: moment().startOf('year').format('YYYY-MM-DD 00:00:00'),
+    endTime: moment().endOf('year').format('YYYY-MM-DD 23:59:59')
+  }, function(err, rows) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.json(rows);
+    }
+  });
+}

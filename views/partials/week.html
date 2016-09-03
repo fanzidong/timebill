@@ -1,1 +1,36 @@
-week
+<h2>{{startDay}} - {{endDay}}</h2>
+
+<h3>总计： {{formatDurationTime(totalTime)}}</h3>
+<h3>平均： {{formatDurationTime(avgTime)}}</h3>
+
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>日期</th>
+      <th>时长</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="day in days">
+      <td>{{day.date}}</td>
+      <td>{{formatDurationTime(day.dailyTime)}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>类型</th>
+      <th>总时长</th>
+      <th>平均时长</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="type in types">
+      <td>{{type.typeName}}</td>
+      <td>{{formatDurationTime(type.dailyTime)}}</td>
+      <td>{{formatDurationTime(type.dailyTime / days.length)}}</td>
+    </tr>
+  </tbody>
+</table>

@@ -2,10 +2,10 @@ var mysql = require('mysql');
 
 // 数据库连接信息
 var db_host = '127.0.0.1';
-var db_port = 3306;
+var db_port = 3003;
 var db_name = 'timebill';
-var username = 'fanzidong';
-var password = 'fanzidong';
+var username = 'root';
+var password = 'ems';
 
 var option = {
   host: db_host,

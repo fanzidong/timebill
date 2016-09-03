@@ -68,6 +68,13 @@ app.post('/api/time-bills', api.addTimeBill);
 app.put('/api/time-bills/:id', api.editTimeBill);
 app.delete('/api/time-bills/:id', api.deleteTimeBill);
 
+app.get('/api/time-bills/daily/week', api.loadWeekDailySummayInfo);
+app.get('/api/time-bills/type/week', api.loadWeekTypeSummaryInfo);
+app.get('/api/time-bills/daily/month', api.loadMonthDailySummayInfo);
+app.get('/api/time-bills/type/month', api.loadMonthTypeSummaryInfo);
+app.get('/api/time-bills/daily/year', api.loadYearDailySummayInfo);
+app.get('/api/time-bills/type/year', api.loadYearTypeSummaryInfo);
+
 app.get('/api/time-bills/all', api.loadAllTimeBills);
 
 app.get('/api/bill-types', api.billTypes);
