@@ -16,13 +16,15 @@ angular.module('timeBill.month', ['ngRoute'])
   // 获取本周统计信息
   var loadingWeekDailySummayInfo = $http.get('/api/time-bills/daily/month');
   loadingWeekDailySummayInfo.success(function(data, status, headers, config) {
-    $scope.days = data;
-    var duration = 0;
+    $scope.weeks = data;
+    var duration = 0,
+      dayNum = 0;
     for(var i=0, len=data.length; i<len; i++) {
-      duration += data[i].dailyTime;
+      duration += data[i].durationTime;
+      dayNum += data[i].dayNum;
     }
     $scope.totalTime = duration;
-    $scope.avgTime = duration / data.length;
+    $scope.avgTime = duration / dayNum;
   });
   loadingWeekDailySummayInfo.error(function() {
 

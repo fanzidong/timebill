@@ -5,7 +5,7 @@
 angular.module('timeBill', [
   'ngRoute',
   'timeBill.controllers',
-  'timeBill.today',
+  'timeBill.daily',
   'timeBill.week',
   'timeBill.month',
   'timeBill.year',
@@ -17,7 +17,7 @@ angular.module('timeBill', [
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.otherwise({
-    redirectTo: '/today'
+    redirectTo: '/daily/0'
   });
 
   $locationProvider.html5Mode(true);

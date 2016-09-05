@@ -1,39 +1,41 @@
 'use strict';
 
-angular.module('timeBill.today', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.dateTimeInput'])
+angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.dateTimeInput'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/today', {
-    templateUrl: 'partials/today',
-    controller: 'todayContrl'
+  $routeProvider.when('/daily/:offset', {
+    templateUrl: 'partials/daily',
+    controller: 'dailyContrl'
   });
 }])
 
-.controller('todayContrl', ['$scope', '$http', '$filter', function($scope, $http, $filter) {
+.controller('dailyContrl', ['$scope', '$http', '$filter','$routeParams', function($scope, $http, $filter, $routeParams) {
+  var offset = $routeParams.offset || 0;
+  $scope.offset = parseInt(offset, 10);
+  $scope.today = moment().add(offset, 'd').format('YYYY年MM月DD日');
+
   // 加载所有账单类型
   var loadingBillTypes = $http.get('/api/bill-types');
   loadingBillTypes.success(function(data, status, headers, config) {
     $scope.billTypes = data;
-
-    var typeMap = {};
-    $.each(data, function(i, billType) {
-      typeMap[billType.id] = billType.name;
-    });
-    $scope.typeMap = typeMap;
   });
 
-  //获取今天的流水记录
-  var loadingTimeBills = $http.get('/api/time-bills/today');
+  // 获取每日的流水记录
+  var loadingTimeBills = $http.get('/api/time-bills/daily/' + offset);
   loadingTimeBills.success(function(data, status, headers, config) {
     $scope.timeBills = data;
-    _summaryBills(data);
+    var duration = 0;
+    for(var i=0, len=data.length; i<len; i++) {
+      duration += data[i].durationTime || 0;
+    }
+    $scope.totalTime = duration;
   });
 
-  $scope.today = new Date();
-
-  $scope.hasDone = function(timeBill) {
-    return !!timeBill.endTime;
-  }
+  // 加载今天的流水分类型统计
+  var loadingTypeTimeBills = $http.get('/api/time-bills/type/daily');
+  loadingTypeTimeBills.success(function(data, status, headers, config) {
+    $scope.types = data;
+  });
 
   $scope.formatDurationTime = function(durationTime) {
     var str = '',
@@ -161,39 +163,6 @@ angular.module('timeBill.today', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
       })
   }
 
-  function _summaryBills(timeBills) {
-    var map = {},
-      total = 0;
-    $.each(timeBills, function(i, timeBill) {
-      total += timeBill.durationTime;
-      if(map[timeBill.typeId]) {
-        map[timeBill.typeId] += timeBill.durationTime;
-      } else {
-        map[timeBill.typeId] =  timeBill.durationTime;
-      }
-    });
-
-    var list = [];
-
-    for(var typeId in map) {
-      list.push({
-        typeId: typeId,
-        durationTime: map[typeId],
-        percent: map[typeId] * 100 / total
-      });
-    }
-    list.sort(function(a, b) {
-      return b.durationTime - a.durationTime;
-    });
-
-    $scope.totalDuration = total;
-    $scope.summaryData = list;
-  }
-
-  $scope.getBillTypeNameById = function(typeId) {
-    console.log($scope.typeMap);
-    return $scope.typeMap[typeId] || '未分类';
-  }
 
   $scope.getProgressColorByRank = function(rank) {
     if(rank == 0) {

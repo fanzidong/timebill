@@ -65,8 +65,26 @@ exports.deleteBillType = function(req, res) {
   });
 };
 
-exports.loadTodayTimeBills = function(req, res) {
+exports.loadDailyTimeBills = function(req, res) {
+  var today = moment(),
+    offset = req.params.offset,
+    queryDay = today.add(offset, 'd');
   TimeBill.loadTimeBills({
+    startTime: queryDay.format('YYYY-MM-DD 00:00:00'),
+    endTime: queryDay.format('YYYY-MM-DD 23:59:59')
+  }, function(err, rows) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.json(rows);
+    }
+  });
+};
+
+exports.loadDailyTypeSummaryInfo = function(req, res) {
+  TimeBill.getTypeSummaryInfo({
     startTime: moment().format('YYYY-MM-DD 00:00:00'),
     endTime: moment().format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
@@ -78,7 +96,7 @@ exports.loadTodayTimeBills = function(req, res) {
       res.json(rows);
     }
   });
-};
+}
 
 exports.loadAllTimeBills = function(req, res) {
   TimeBill.loadTimeBills({}, function(err, rows) {
@@ -170,7 +188,7 @@ exports.loadWeekTypeSummaryInfo = function(req, res) {
 }
 
 exports.loadMonthDailySummayInfo = function(req, res) {
-  TimeBill.getDailySummayInfo({
+  TimeBill.getWeekSummayInfo({
     startTime: moment().startOf('month').format('YYYY-MM-DD 00:00:00'),
     endTime: moment().endOf('month').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {

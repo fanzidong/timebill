@@ -22,7 +22,7 @@ html, body {
 .main-container > .main {
   left: 260px;
   right: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .side-menu-item {
@@ -41,4 +41,8 @@ html, body {
 
 .modal-footer-center {
   text-align: center;
+}
+
+.page-title {
+  font-size: 32px;
 }

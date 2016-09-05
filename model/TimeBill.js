@@ -64,6 +64,15 @@ TimeBill.getDailySummayInfo = function(data, callback) {
   });
 };
 
+TimeBill.getWeekSummayInfo = function(data, callback) {
+  var querySql = 'SELECT DATE_FORMAT(A.date, "%Y-%u") name, A.date weekStartDay, SUM(A.dailyTime) durationTime, COUNT(*) dayNum FROM (SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) dailyTime FROM timebill A';
+  querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
+  querySql += ' GROUP BY date) A GROUP BY name';
+  db.exec(querySql, [], function(err, rows) {
+    callback(err, rows);
+  });
+};
+
 TimeBill.getMonthSummayInfo = function(data, callback) {
   var querySql = 'SELECT DATE_FORMAT(A.date, "%Y-%m") name, SUM(A.dailyTime) durationTime, COUNT(*) dayNum FROM (SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) dailyTime FROM timebill A';
   querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
