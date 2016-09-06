@@ -56,7 +56,7 @@ TimeBill.prototype.delete = function(callback) {
 };
 
 TimeBill.getDailySummayInfo = function(data, callback) {
-  var querySql = 'SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) dailyTime FROM timebill A';
+  var querySql = 'SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) durationTime FROM timebill A';
   querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
   querySql += ' GROUP BY date ORDER BY date';
   db.exec(querySql, [], function(err, rows) {

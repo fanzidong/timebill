@@ -1,6 +1,11 @@
-<h2 class="text-center">{{startDay}} - {{endDay}}</h2>
+<nav>
+  <ul class="pager">
+    <li class="previous"><a href="/week/{{offset - 1}}">&larr; {{prevStartDay}} - {{prevEndDay}}</a></li>
+    <li class="page-title">{{startDay}} - {{endDay}}</li>
+    <li class="next"><a href="/week/{{offset + 1}}">{{nextStartDay}} - {{nextEndDay}} &rarr;</a></li>
+  </ul>
+</nav>
 
-<h3>总计/平均： {{formatDurationTime(totalTime)}} / {{formatDurationTime(avgTime)}}</h3>
 
 <table class="table table-striped table-bordered table-hover">
   <thead>
@@ -12,24 +17,16 @@
   <tbody>
     <tr ng-repeat="day in days">
       <td>{{day.date}}</td>
-      <td>{{formatDurationTime(day.dailyTime)}}</td>
+      <td>{{formatDurationTime(day.durationTime)}}</td>
     </tr>
   </tbody>
 </table>
 
-<table class="table table-striped table-bordered table-hover">
-  <thead>
-    <tr>
-      <th>类型</th>
-      <th>总时长</th>
-      <th>平均时长</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="type in types">
-      <td>{{type.typeName}}</td>
-      <td>{{formatDurationTime(type.dailyTime)}}</td>
-      <td>{{formatDurationTime(type.dailyTime / days.length)}}</td>
-    </tr>
-  </tbody>
-</table>
+<h3>总计：{{formatDurationTime(totalTime)}}</h3>
+<h3>平均：{{formatDurationTime(avgTime)}} / 天</h3>
+
+<div class="progress" ng-repeat="type in types">
+  <div class="progress-bar progress-bar-{{getProgressColorByRank($index)}} progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{type.dailyTime*100/totalTime}}%;min-width:100px;">
+    <span>{{type.typeName}}: {{formatDurationTime(type.dailyTime)}}</span>
+  </div>
+</div>

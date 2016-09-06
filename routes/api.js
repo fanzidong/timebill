@@ -84,9 +84,12 @@ exports.loadDailyTimeBills = function(req, res) {
 };
 
 exports.loadDailyTypeSummaryInfo = function(req, res) {
+  var today = moment(),
+    offset = req.params.offset,
+    queryDay = today.add(offset, 'd');
   TimeBill.getTypeSummaryInfo({
-    startTime: moment().format('YYYY-MM-DD 00:00:00'),
-    endTime: moment().format('YYYY-MM-DD 23:59:59')
+    startTime: queryDay.format('YYYY-MM-DD 00:00:00'),
+    endTime: queryDay.format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
     if(err) {
       res.status(500).json({
@@ -158,9 +161,12 @@ exports.deleteTimeBill = function(req, res) {
 }
 
 exports.loadWeekDailySummayInfo = function(req, res) {
+  var today = moment(),
+    offset = req.params.offset,
+    queryWeekDay = today.add(offset, 'w');
   TimeBill.getDailySummayInfo({
-    startTime: moment().startOf('isoWeek').format('YYYY-MM-DD 00:00:00'),
-    endTime: moment().endOf('isoWeek').format('YYYY-MM-DD 23:59:59')
+    startTime: queryWeekDay.startOf('isoWeek').format('YYYY-MM-DD 00:00:00'),
+    endTime: queryWeekDay.endOf('isoWeek').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
     if(err) {
       res.status(500).json({
@@ -173,9 +179,13 @@ exports.loadWeekDailySummayInfo = function(req, res) {
 }
 
 exports.loadWeekTypeSummaryInfo = function(req, res) {
+  var today = moment(),
+    offset = req.params.offset,
+    queryWeekDay = today.add(offset, 'w');
+
   TimeBill.getTypeSummaryInfo({
-    startTime: moment().startOf('isoWeek').format('YYYY-MM-DD 00:00:00'),
-    endTime: moment().endOf('isoWeek').format('YYYY-MM-DD 23:59:59')
+    startTime: queryWeekDay.startOf('isoWeek').format('YYYY-MM-DD 00:00:00'),
+    endTime: queryWeekDay.endOf('isoWeek').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
     if(err) {
       res.status(500).json({
@@ -188,9 +198,13 @@ exports.loadWeekTypeSummaryInfo = function(req, res) {
 }
 
 exports.loadMonthDailySummayInfo = function(req, res) {
+  var today = moment(),
+    offset = req.params.offset,
+    queryMonth = today.add(offset, 'M');
+
   TimeBill.getWeekSummayInfo({
-    startTime: moment().startOf('month').format('YYYY-MM-DD 00:00:00'),
-    endTime: moment().endOf('month').format('YYYY-MM-DD 23:59:59')
+    startTime: queryMonth.startOf('month').format('YYYY-MM-DD 00:00:00'),
+    endTime: queryMonth.endOf('month').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
     if(err) {
       res.status(500).json({
@@ -203,9 +217,13 @@ exports.loadMonthDailySummayInfo = function(req, res) {
 }
 
 exports.loadMonthTypeSummaryInfo = function(req, res) {
+  var today = moment(),
+    offset = req.params.offset,
+    queryMonth = today.add(offset, 'M');
+
   TimeBill.getTypeSummaryInfo({
-    startTime: moment().startOf('month').format('YYYY-MM-DD 00:00:00'),
-    endTime: moment().endOf('month').format('YYYY-MM-DD 23:59:59')
+    startTime: queryMonth.startOf('month').format('YYYY-MM-DD 00:00:00'),
+    endTime: queryMonth.endOf('month').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
     if(err) {
       res.status(500).json({

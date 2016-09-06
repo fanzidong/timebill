@@ -64,17 +64,17 @@ app.get('/partials/:name', routes.partials);
 
 // JSON API
 app.get('/api/time-bills/daily/:offset', api.loadDailyTimeBills);
-app.get('/api/time-bills/type/daily', api.loadDailyTypeSummaryInfo);
+app.get('/api/time-bills/type/daily/:offset', api.loadDailyTypeSummaryInfo);
 app.post('/api/time-bills', api.addTimeBill);
 app.put('/api/time-bills/:id', api.editTimeBill);
 app.delete('/api/time-bills/:id', api.deleteTimeBill);
 
-app.get('/api/time-bills/daily/week', api.loadWeekDailySummayInfo);
-app.get('/api/time-bills/type/week', api.loadWeekTypeSummaryInfo);
-app.get('/api/time-bills/daily/month', api.loadMonthDailySummayInfo);
-app.get('/api/time-bills/type/month', api.loadMonthTypeSummaryInfo);
-app.get('/api/time-bills/daily/year', api.loadYearDailySummayInfo);
-app.get('/api/time-bills/type/year', api.loadYearTypeSummaryInfo);
+app.get('/api/time-bills/week/:offset', api.loadWeekDailySummayInfo);
+app.get('/api/time-bills/type/week/:offset', api.loadWeekTypeSummaryInfo);
+app.get('/api/time-bills/month/:offset', api.loadMonthDailySummayInfo);
+app.get('/api/time-bills/type/month/:offset', api.loadMonthTypeSummaryInfo);
+app.get('/api/time-bills/year/:offset', api.loadYearDailySummayInfo);
+app.get('/api/time-bills/type/year/:offset', api.loadYearTypeSummaryInfo);
 
 app.get('/api/time-bills/all', api.loadAllTimeBills);
 

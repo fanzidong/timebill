@@ -10,9 +10,11 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
 }])
 
 .controller('dailyContrl', ['$scope', '$http', '$filter','$routeParams', function($scope, $http, $filter, $routeParams) {
-  var offset = $routeParams.offset || 0;
-  $scope.offset = parseInt(offset, 10);
+  var offset = parseInt($routeParams.offset || 0, 10);
+  $scope.offset = offset;
   $scope.today = moment().add(offset, 'd').format('YYYY年MM月DD日');
+  $scope.prevDay = moment().add(offset - 1, 'd').format('YYYY年MM月DD日');
+  $scope.nextDay = moment().add(offset + 1, 'd').format('YYYY年MM月DD日');
 
   // 加载所有账单类型
   var loadingBillTypes = $http.get('/api/bill-types');
@@ -21,21 +23,10 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
   });
 
   // 获取每日的流水记录
-  var loadingTimeBills = $http.get('/api/time-bills/daily/' + offset);
-  loadingTimeBills.success(function(data, status, headers, config) {
-    $scope.timeBills = data;
-    var duration = 0;
-    for(var i=0, len=data.length; i<len; i++) {
-      duration += data[i].durationTime || 0;
-    }
-    $scope.totalTime = duration;
-  });
+  _loadDailyTimeBills();
 
   // 加载今天的流水分类型统计
-  var loadingTypeTimeBills = $http.get('/api/time-bills/type/daily');
-  loadingTypeTimeBills.success(function(data, status, headers, config) {
-    $scope.types = data;
-  });
+  _loadDailyTypeSummayInfo();
 
   $scope.formatDurationTime = function(durationTime) {
     var str = '',
@@ -98,10 +89,8 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
     addingTimeBills.success(function(data, status, headers, config) {
       // TODO 添加成功后刷新页面
       $('#timeBillModal').modal('hide');
-      var loadingTimeBills = $http.get('/api/time-bills/today');
-      loadingTimeBills.success(function(data, status, headers, config) {
-        $scope.timeBills = data;
-      });
+      _loadDailyTimeBills();
+      _loadDailyTypeSummayInfo();
     });
     addingTimeBills.error(function(data, status, headers, config) {
       // TODO 失败后弹窗提示
@@ -132,10 +121,8 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
     editingTimeBills.success(function(data, status, headers, config) {
       // TODO 编辑成功后刷新页面
       $('#timeBillModal').modal('hide');
-      var loadingTimeBills = $http.get('/api/time-bills/today');
-      loadingTimeBills.success(function(data, status, headers, config) {
-        $scope.timeBills = data;
-      });
+      _loadDailyTimeBills();
+      _loadDailyTypeSummayInfo();
     });
     editingTimeBills.error(function(data, status, headers, config) {
       // TODO 失败后弹窗提示
@@ -156,13 +143,29 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
     $http.delete('api/time-bills/' + id)
       .success(function(data, status, headers, config) {
         $('#deleteBillModal').modal('hide');
-        var loadingTimeBills = $http.get('/api/time-bills/today');
-        loadingTimeBills.success(function(data, status, headers, config) {
-          $scope.timeBills = data;
-        });
+        _loadDailyTimeBills();
+        _loadDailyTypeSummayInfo();
       })
   }
 
+  function _loadDailyTimeBills() {
+    var loadingTimeBills = $http.get('/api/time-bills/daily/' + offset);
+    loadingTimeBills.success(function(data, status, headers, config) {
+      $scope.timeBills = data;
+      var duration = 0;
+      for(var i=0, len=data.length; i<len; i++) {
+        duration += data[i].durationTime || 0;
+      }
+      $scope.totalTime = duration;
+    });
+  }
+
+  function _loadDailyTypeSummayInfo() {
+    var loadingTypeTimeBills = $http.get('/api/time-bills/type/daily/' + offset);
+    loadingTypeTimeBills.success(function(data, status, headers, config) {
+      $scope.types = data;
+    });
+  }
 
   $scope.getProgressColorByRank = function(rank) {
     if(rank == 0) {
@@ -175,4 +178,5 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
       return "info"
     }
   }
+
 }]);

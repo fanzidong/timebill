@@ -3,18 +3,25 @@
 angular.module('timeBill.year', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/year', {
+  $routeProvider.when('/year/:offset', {
     templateUrl: 'partials/year',
     controller: 'yearContrl'
   });
 }])
 
-.controller('yearContrl', ['$scope', '$http', function($scope, $http) {
-  $scope.startDay = moment().startOf('year').format('YYYY-MM-DD');
-  $scope.endDay = moment().endOf('year').format('YYYY-MM-DD');
+.controller('yearContrl', ['$scope', '$http','$routeParams', function($scope, $http, $routeParams) {
+  var offset = parseInt($routeParams.offset || 0, 10),
+    thisYear = moment().add(offset, 'Y'),
+    prevYear = moment().add(offset - 1, 'Y'),
+    nextYear = moment().add(offset + 1, 'Y');
+
+  $scope.offset = offset;
+  $scope.thisYear = thisYear.format('YYYY年');
+  $scope.prevYear = prevYear.format('YYYY年');
+  $scope.nextYear = nextYear.format('YYYY年');
 
   // 获取本周统计信息
-  var loadingWeekDailySummayInfo = $http.get('/api/time-bills/daily/year');
+  var loadingWeekDailySummayInfo = $http.get('/api/time-bills/year/' + offset);
   loadingWeekDailySummayInfo.success(function(data, status, headers, config) {
     $scope.months = data;
     var duration = 0,
@@ -31,7 +38,7 @@ angular.module('timeBill.year', ['ngRoute'])
 
   });
 
-  var loadingWeekTypeSummayInfo = $http.get('/api/time-bills/type/year');
+  var loadingWeekTypeSummayInfo = $http.get('/api/time-bills/type/year/' + offset);
   loadingWeekTypeSummayInfo.success(function(data, status, headers, config) {
     $scope.types = data;
   });
@@ -54,5 +61,17 @@ angular.module('timeBill.year', ['ngRoute'])
       str += '0分钟';
     }
     return str;
+  }
+
+  $scope.getProgressColorByRank = function(rank) {
+    if(rank == 0) {
+      return "danger";
+    } else if (rank == 1) {
+      return "warning";
+    } else if (rank == 2) {
+      return "success";
+    } else {
+      return "info"
+    }
   }
 }]);
