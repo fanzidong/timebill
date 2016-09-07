@@ -11,14 +11,10 @@ angular.module('timeBill.year', ['ngRoute'])
 
 .controller('yearContrl', ['$scope', '$http','$routeParams', function($scope, $http, $routeParams) {
   var offset = parseInt($routeParams.offset || 0, 10),
-    thisYear = moment().add(offset, 'Y'),
-    prevYear = moment().add(offset - 1, 'Y'),
-    nextYear = moment().add(offset + 1, 'Y');
+    thisYear = moment().add(offset, 'Y');
 
   $scope.offset = offset;
   $scope.thisYear = thisYear.format('YYYY年');
-  $scope.prevYear = prevYear.format('YYYY年');
-  $scope.nextYear = nextYear.format('YYYY年');
 
   // 获取本周统计信息
   var loadingWeekDailySummayInfo = $http.get('/api/time-bills/year/' + offset);
@@ -46,32 +42,4 @@ angular.module('timeBill.year', ['ngRoute'])
 
   });
 
-  $scope.formatDurationTime = function(durationTime) {
-    var str = '',
-      remain = durationTime;
-    if(durationTime >= 3600) {
-      var hour = Math.floor(durationTime / 3600);
-      str += hour + '小时';
-      remain = durationTime - hour * 3600;
-    }
-    if(remain >= 60) {
-      var minite = Math.floor(remain / 60);
-      str += minite + '分钟';
-    }else {
-      str += '0分钟';
-    }
-    return str;
-  }
-
-  $scope.getProgressColorByRank = function(rank) {
-    if(rank == 0) {
-      return "danger";
-    } else if (rank == 1) {
-      return "warning";
-    } else if (rank == 2) {
-      return "success";
-    } else {
-      return "info"
-    }
-  }
 }]);

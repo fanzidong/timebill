@@ -13,8 +13,6 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
   var offset = parseInt($routeParams.offset || 0, 10);
   $scope.offset = offset;
   $scope.today = moment().add(offset, 'd').format('YYYY年MM月DD日');
-  $scope.prevDay = moment().add(offset - 1, 'd').format('MM月DD日');
-  $scope.nextDay = moment().add(offset + 1, 'd').format('MM月DD日');
 
   // 加载所有账单类型
   var loadingBillTypes = $http.get('/api/bill-types');
@@ -27,21 +25,6 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
 
   // 加载今天的流水分类型统计
   _loadDailyTypeSummayInfo();
-
-  $scope.formatDurationTime = function(durationTime) {
-    var str = '',
-      remain = durationTime;
-    if(durationTime >= 3600) {
-      var hour = Math.floor(durationTime / 3600);
-      str += hour + '小时';
-      remain = durationTime - hour * 3600;
-    }
-    if(remain >= 60) {
-      var minite = Math.floor(remain / 60);
-      str += minite + '分钟';
-    }
-    return str;
-  }
 
   $scope.showAddBill = function() {
     $('#timeBillModal').modal('show');
@@ -165,18 +148,6 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
     loadingTypeTimeBills.success(function(data, status, headers, config) {
       $scope.types = data;
     });
-  }
-
-  $scope.getProgressColorByRank = function(rank) {
-    if(rank == 0) {
-      return "danger";
-    } else if (rank == 1) {
-      return "warning";
-    } else if (rank == 2) {
-      return "success";
-    } else {
-      return "info"
-    }
   }
 
 }]);

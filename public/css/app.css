@@ -1,40 +1,4 @@
 /* app css stylesheet */
-html, body {
-  height: 100%;
-}
-
-.main-container {
-  height: 100%;
-}
-
-.main-container > .aside-left,
-.main-container > .main {
-  position: absolute;
-  top: 0;
-  height: 100%;
-}
-
-.main-container > .aside-left {
-  width: 260px;
-  background-color: #516bc1;
-}
-
-.main-container > .main {
-  left: 260px;
-  right: 0;
-  overflow-y: auto;
-}
-
-.side-menu-item {
-  color: #fff;
-}
-
-.nav-bottom {
-  bottom: 0;
-  position: absolute;
-  width: 100%;
-}
-
 .toolbar {
   margin: 20px 0;
 }

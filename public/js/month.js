@@ -11,14 +11,10 @@ angular.module('timeBill.month', ['ngRoute'])
 
 .controller('monthContrl', ['$scope', '$http','$routeParams', function($scope, $http, $routeParams) {
   var offset = parseInt($routeParams.offset || 0, 10),
-    thisMonth = moment().add(offset, 'M'),
-    prevMonth = moment().add(offset - 1, 'M'),
-    nextMonth = moment().add(offset + 1, 'M');
+    thisMonth = moment().add(offset, 'M');
 
   $scope.offset = offset;
   $scope.thisMonth = thisMonth.format('YYYY年MM月');
-  $scope.prevMonth = prevMonth.format('YYYY年MM月');
-  $scope.nextMonth = nextMonth.format('YYYY年MM月');
 
   // 获取本周统计信息
   var loadingWeekDailySummayInfo = $http.get('/api/time-bills/month/' + offset);
@@ -51,30 +47,4 @@ angular.module('timeBill.month', ['ngRoute'])
 
   });
 
-  $scope.formatDurationTime = function(durationTime) {
-    var str = '',
-      remain = durationTime;
-    if(durationTime >= 3600) {
-      var hour = Math.floor(durationTime / 3600);
-      str += hour + '小时';
-      remain = durationTime - hour * 3600;
-    }
-    if(remain >= 60) {
-      var minite = Math.floor(remain / 60);
-      str += minite + '分钟';
-    }
-    return str;
-  }
-
-  $scope.getProgressColorByRank = function(rank) {
-    if(rank == 0) {
-      return "danger";
-    } else if (rank == 1) {
-      return "warning";
-    } else if (rank == 2) {
-      return "success";
-    } else {
-      return "info"
-    }
-  }
 }]);
