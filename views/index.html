@@ -10,7 +10,52 @@
   </head>
 
   <body>
-    <div class="main-container">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+          <div class="container-fluid">
+            <!-- brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#time-bill-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">时间账单</a>
+            </div>
+
+            <!-- collect the nav links for togging -->
+            <div class="collapse navbar-collapse" id="time-bill-navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li>
+                  <a href="/daily/0">今天</a>
+                </li>
+                <li>
+                  <a href="/week/0">本周</a>
+                </li>
+                <li>
+                  <a href="/month/0">本月</a>
+                </li>
+                <li>
+                  <a href="/year/0">今年</a>
+                </li>
+              </ul>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li>
+                  <a href="/bill-type">账单类型</a>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </nav>
+
+      <div class="main container" ng-view></div>
+
+
+    <!-- <div class="main-container">
       <aside class="aside-left">
         <ul class="nav nav-pills nav-stacked">
           <li><a class="side-menu-item" href="/daily/0">今天</a></li>
@@ -28,8 +73,7 @@
           </li>
         </ul>
       </aside>
-      <div class="main container" ng-view></div>
-    </div>
+    </div> -->
   </body>
 
   <script src="js/lib/jquery/jquery-1.11.0.min.js"></script>

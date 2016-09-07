@@ -19,11 +19,11 @@ angular.module('timeBill.week', ['ngRoute'])
   $scope.startDay = moment().add(offset, 'w').startOf('isoWeek').format('YYYY-MM-DD');
   $scope.endDay = moment().add(offset, 'w').endOf('isoWeek').format('YYYY-MM-DD');
 
-  $scope.prevStartDay = moment().add(offset - 1, 'w').startOf('isoWeek').format('YYYY-MM-DD');
-  $scope.prevEndDay = moment().add(offset - 1, 'w').endOf('isoWeek').format('YYYY-MM-DD');
+  $scope.prevStartDay = moment().add(offset - 1, 'w').startOf('isoWeek').format('MM.DD');
+  $scope.prevEndDay = moment().add(offset - 1, 'w').endOf('isoWeek').format('MM.DD');
 
-  $scope.nextStartDay = moment().add(offset + 1, 'w').startOf('isoWeek').format('YYYY-MM-DD');
-  $scope.nextEndDay = moment().add(offset + 1, 'w').endOf('isoWeek').format('YYYY-MM-DD');
+  $scope.nextStartDay = moment().add(offset + 1, 'w').startOf('isoWeek').format('MM.DD');
+  $scope.nextEndDay = moment().add(offset + 1, 'w').endOf('isoWeek').format('MM.DD');
 
   // 获取本周统计信息
   var loadingWeekDailySummayInfo = $http.get('/api/time-bills/week/' + offset);

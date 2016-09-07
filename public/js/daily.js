@@ -13,8 +13,8 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
   var offset = parseInt($routeParams.offset || 0, 10);
   $scope.offset = offset;
   $scope.today = moment().add(offset, 'd').format('YYYY年MM月DD日');
-  $scope.prevDay = moment().add(offset - 1, 'd').format('YYYY年MM月DD日');
-  $scope.nextDay = moment().add(offset + 1, 'd').format('YYYY年MM月DD日');
+  $scope.prevDay = moment().add(offset - 1, 'd').format('MM月DD日');
+  $scope.nextDay = moment().add(offset + 1, 'd').format('MM月DD日');
 
   // 加载所有账单类型
   var loadingBillTypes = $http.get('/api/bill-types');

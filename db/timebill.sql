@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-09-02 20:05:27
+Date: 2016-09-06 21:53:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,7 +29,7 @@ CREATE TABLE `timebill` (
   PRIMARY KEY (`id`),
   KEY `bill_type_fk` (`typeId`),
   CONSTRAINT `bill_type_fk` FOREIGN KEY (`typeId`) REFERENCES `billtype` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1276 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1290 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of timebill
@@ -1305,3 +1305,16 @@ INSERT INTO `timebill` VALUES ('1272', '频谱优化', '2016-09-02 11:25:00', '2
 INSERT INTO `timebill` VALUES ('1273', '频谱优化', '2016-09-02 13:05:00', '2016-09-02 15:00:00', '6900', '2');
 INSERT INTO `timebill` VALUES ('1274', '频谱优化', '2016-09-02 15:15:00', '2016-09-02 17:30:00', '8100', '2');
 INSERT INTO `timebill` VALUES ('1275', '时间账单-录入数据', '2016-09-02 18:00:00', '2016-09-02 18:30:00', '1800', '2');
+INSERT INTO `timebill` VALUES ('1277', '时间账单', '2016-09-02 20:18:00', null, null, '2');
+INSERT INTO `timebill` VALUES ('1278', '订阅', '2016-09-03 08:30:00', '2016-09-03 09:30:00', '3600', '1');
+INSERT INTO `timebill` VALUES ('1279', '频谱优化+时间账单录入数据', '2016-09-03 09:35:00', '2016-09-03 12:00:00', '8700', '2');
+INSERT INTO `timebill` VALUES ('1280', '频谱优化+时间账单录入数据', '2016-09-03 13:00:00', '2016-09-03 14:00:00', '3600', '2');
+INSERT INTO `timebill` VALUES ('1281', 'GPON培训', '2016-09-03 14:00:00', '2016-09-03 15:40:00', '6000', '7');
+INSERT INTO `timebill` VALUES ('1282', '频谱优化+时间账单', '2016-09-03 15:45:00', '2016-09-03 17:00:00', '4500', '2');
+INSERT INTO `timebill` VALUES ('1283', '《关键对话》', '2016-09-03 17:40:00', '2016-09-03 18:50:00', '4200', '1');
+INSERT INTO `timebill` VALUES ('1284', '订阅', '2016-09-05 08:35:00', '2016-09-05 09:10:00', '2100', '1');
+INSERT INTO `timebill` VALUES ('1285', 'telnet客户端', '2016-09-05 09:15:00', '2016-09-05 12:00:00', '9900', '2');
+INSERT INTO `timebill` VALUES ('1286', 'telnet客户端', '2016-09-05 13:00:00', '2016-09-05 15:00:00', '7200', '2');
+INSERT INTO `timebill` VALUES ('1287', 'telnet客户端需求', '2016-09-05 15:15:00', '2016-09-05 17:25:00', '7800', '5');
+INSERT INTO `timebill` VALUES ('1288', '《关键对话》', '2016-09-05 19:10:00', '2016-09-05 20:15:00', '3900', '1');
+INSERT INTO `timebill` VALUES ('1289', '时间账单', '2016-09-05 21:50:00', '2016-09-05 23:20:00', '5400', '2');
