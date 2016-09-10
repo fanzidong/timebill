@@ -2,12 +2,22 @@
  * Serve JSON to our AngularJS client
  */
 var BillType = require('../model/BillType.js');
+var TopType = require('../model/TopType.js');
 var TimeBill = require('../model/TimeBill.js');
 var moment = require('moment');
 
 exports.name = function (req, res) {
   res.json({
     name: 'Bob'
+  });
+};
+
+exports.loadTopTypes = function(req, res) {
+  TopType.loadAllTypes(function(err, rows) {
+    if(err) {
+      return;
+    }
+    res.json(rows);
   });
 };
 
@@ -21,7 +31,7 @@ exports.billTypes = function(req, res) {
 };
 
 exports.addBillTypes = function(req, res) {
-  var billType = new BillType(null, req.body.name);
+  var billType = new BillType(null, req.body.name, req.body.topTypeId);
   billType.save(function(err) {
     if(err) {
       res.status(500).json({
@@ -36,7 +46,7 @@ exports.addBillTypes = function(req, res) {
 };
 
 exports.editBillTypes = function(req, res) {
-  var billType = new BillType(req.params.id, req.body.name);
+  var billType = new BillType(req.params.id, req.body.name, req.body.topTypeId);
   billType.save(function(err) {
     if(err) {
       res.status(500).json({

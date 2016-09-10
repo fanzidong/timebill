@@ -1,54 +1,46 @@
--- phpMyAdmin SQL Dump
--- http://www.phpmyadmin.net
---
--- 生成日期: 2016 年 09 月 10 日 21:03
+/*
+Navicat MySQL Data Transfer
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+Source Server         : localhost_3306
+Source Server Version : 50624
+Source Host           : localhost:3306
+Source Database       : timebill
 
+Target Server Type    : MYSQL
+Target Server Version : 50624
+File Encoding         : 65001
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+Date: 2016-09-10 22:11:48
+*/
 
---
--- 数据库: `TqLAcHLmENcmeXXRPhxR`
---
+SET FOREIGN_KEY_CHECKS=0;
 
--- --------------------------------------------------------
-
---
--- 表的结构 `billtype`
---
-
-CREATE TABLE IF NOT EXISTS `billtype` (
+-- ----------------------------
+-- Table structure for billtype
+-- ----------------------------
+DROP TABLE IF EXISTS `billtype`;
+CREATE TABLE `billtype` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `toptypeId` int(11) DEFAULT NULL COMMENT '顶层类型',
   PRIMARY KEY (`id`),
   KEY `toptypeId` (`toptypeId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
---
--- 转存表中的数据 `billtype`
---
-
-INSERT INTO `billtype` (`id`, `name`, `toptypeId`) VALUES
-(1, '阅读', 2),
-(2, '编码', 1),
-(3, '学习', 2),
-(4, '影音', 3),
-(5, '文档', 1),
-(6, '纪录片', 3),
-(7, '会议', 1),
-(8, '户外活动', 3),
-(9, '体育锻炼', 3),
-(10, '思考学习', 2),
-(14, '教育', 4),
-(15, '游戏', 3),
-(16, '其他工作', 1);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- ----------------------------
+-- Records of billtype
+-- ----------------------------
+INSERT INTO `billtype` VALUES ('1', '阅读文章', '2');
+INSERT INTO `billtype` VALUES ('2', '编码', '1');
+INSERT INTO `billtype` VALUES ('3', '思考学习', '2');
+INSERT INTO `billtype` VALUES ('4', '影音', '3');
+INSERT INTO `billtype` VALUES ('5', '文档', '1');
+INSERT INTO `billtype` VALUES ('6', '编码', '2');
+INSERT INTO `billtype` VALUES ('7', '会议', '1');
+INSERT INTO `billtype` VALUES ('8', '户外活动', '3');
+INSERT INTO `billtype` VALUES ('9', '体育锻炼', '3');
+INSERT INTO `billtype` VALUES ('10', '阅读书籍', '2');
+INSERT INTO `billtype` VALUES ('11', '笔记文档', '2');
+INSERT INTO `billtype` VALUES ('14', '教育', '4');
+INSERT INTO `billtype` VALUES ('15', '游戏', '3');
+INSERT INTO `billtype` VALUES ('16', '其他工作', '1');

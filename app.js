@@ -97,6 +97,7 @@ app.get('/api/time-bills/type/year/:offset', api.loadYearTypeSummaryInfo);
 
 app.get('/api/time-bills/all', api.loadAllTimeBills);
 
+app.get('/api/top-types', api.loadTopTypes);
 app.get('/api/bill-types', api.billTypes);
 app.post('/api/bill-types', api.addBillTypes);
 app.put('/api/bill-types/:id', api.editBillTypes);
