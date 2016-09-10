@@ -136,20 +136,28 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
     loadingTimeBills.success(function(data, status, headers, config) {
       $scope.timeBills = data;
       var duration = 0;
+      var effectiveTotalTime = 0;
       for(var i=0, len=data.length; i<len; i++) {
         duration += data[i].durationTime || 0;
+        if(data[i].topTypeId === 1 || data[i].topTypeId === 2) {
+          effectiveTotalTime += data[i].durationTime || 0;
+        }
       }
       $scope.totalTime = duration;
+      $scope.effectiveTotalTime = effectiveTotalTime;
     });
   }
 
   function _loadDailyTypeSummayInfo() {
     var loadingTypeTimeBills = $http.get('/api/time-bills/type/daily/' + offset);
     loadingTypeTimeBills.success(function(data, status, headers, config) {
-      $scope.types = data;
+      $scope.topTypes = data;
       var maxTypeTime = 0;
+
       for(var i=0; i<data.length; i++) {
-        maxTypeTime = Math.max(maxTypeTime, data[i].dailyTime);
+        if(data[i].childrens[0]) {
+          maxTypeTime = Math.max(maxTypeTime, data[i].childrens[0].durationTime);
+        }
       }
       $scope.maxTypeTime = maxTypeTime;
     });

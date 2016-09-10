@@ -13,7 +13,7 @@ var TimeBill = function(options) {
 }
 
 TimeBill.loadTimeBills = function(data, callback) {
-  var querySql = 'SELECT timebill.*, billtype.`name` typeName FROM timebill LEFT JOIN billtype ON timebill.typeId=billtype.id WHERE 1=1';
+  var querySql = 'SELECT timebill.*, billtype.`name` typeName, billType.topTypeId FROM timebill LEFT JOIN billtype ON timebill.typeId=billtype.id WHERE 1=1';
   if(data.startTime) {
     querySql += ' AND startTime >= "' + data.startTime + '"';
   }
@@ -83,12 +83,53 @@ TimeBill.getMonthSummayInfo = function(data, callback) {
 };
 
 TimeBill.getTypeSummaryInfo = function(data, callback) {
-  var querySql = 'SELECT B.name typeName, SUM(A.durationTime) dailyTime FROM timebill A LEFT JOIN billtype B ON A.typeId=B.id';
+  var querySql = 'SELECT typeSummary.*, topTypeSummary.topTypeName, topTypeSummary.durationTime topDurationTime';
+  querySql += ' FROM (SELECT B.id typeId, B.name typeName, SUM(A.durationTime) durationTime, C.id topTypeId FROM timebill A LEFT JOIN billtype B ON A.typeId=B.id LEFT JOIN toptype C ON B.toptypeId=C.id';
   querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
-  querySql += ' GROUP BY typeId ORDER BY dailyTime DESC';
+  querySql += ' GROUP BY typeId ORDER BY topTypeId ASC, durationTime DESC) typeSummary';
+  querySql += ' LEFT JOIN (SELECT C.id topTypeId, C.name topTypeName, SUM(A.durationTime) durationTime FROM timebill A LEFT JOIN billtype B ON A.typeId=B.id LEFT JOIN toptype C ON B.toptypeId=C.id';
+  querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
+  querySql += ' GROUP BY topTypeId ORDER BY topTypeId ASC) topTypeSummary ON typeSummary.topTypeId=topTypeSummary.topTypeId';
+
   db.exec(querySql, [], function(err, rows) {
-    callback(err, rows);
+    if(err) {
+      callback(err);
+    } else {
+      callback(err, assembleTypes(rows));
+    }
   });
 };
+
+function assembleTypes(rows) {
+  var topTypes = {},
+    row,
+    topTypeId,
+    topType;
+  for(var i=0,len=rows.length; i<len; i++) {
+    var row = rows[i],
+      topTypeId = row.topTypeId;
+    if(topTypes[topTypeId]) {
+      topType = topTypes[topTypeId];
+    }else {
+      topType = {
+        id: topTypeId,
+        name: row.topTypeName,
+        durationTime: row.topDurationTime,
+        childrens: []
+      };
+      topTypes[topTypeId] = topType;
+    }
+    topType.childrens.push({
+      id: row.typeId,
+      name: row.typeName,
+      durationTime: row.durationTime
+    });
+  }
+  var topTypeArr = [];
+  for(var key in topTypes) {
+    topTypeArr.push(topTypes[key]);
+  }
+  return topTypeArr;
+}
 
 module.exports = TimeBill;

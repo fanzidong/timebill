@@ -36,10 +36,13 @@ angular.module('timeBill.year', ['ngRoute'])
 
   var loadingWeekTypeSummayInfo = $http.get('/api/time-bills/type/year/' + offset);
   loadingWeekTypeSummayInfo.success(function(data, status, headers, config) {
-    $scope.types = data;
+    $scope.topTypes = data;
     var maxTypeTime = 0;
+
     for(var i=0; i<data.length; i++) {
-      maxTypeTime = Math.max(maxTypeTime, data[i].dailyTime);
+      if(data[i].childrens[0]) {
+        maxTypeTime = Math.max(maxTypeTime, data[i].childrens[0].durationTime);
+      }
     }
     $scope.maxTypeTime = maxTypeTime;
   });
