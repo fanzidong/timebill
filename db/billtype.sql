@@ -1,42 +1,54 @@
-/*
-Navicat MySQL Data Transfer
+-- phpMyAdmin SQL Dump
+-- http://www.phpmyadmin.net
+--
+-- 生成日期: 2016 年 09 月 10 日 21:03
 
-Source Server         : localhost_3306
-Source Server Version : 50624
-Source Host           : localhost:3306
-Source Database       : timebill
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
-Target Server Type    : MYSQL
-Target Server Version : 50624
-File Encoding         : 65001
 
-Date: 2016-09-06 21:53:14
-*/
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
-SET FOREIGN_KEY_CHECKS=0;
+--
+-- 数据库: `TqLAcHLmENcmeXXRPhxR`
+--
 
--- ----------------------------
--- Table structure for billtype
--- ----------------------------
-DROP TABLE IF EXISTS `billtype`;
-CREATE TABLE `billtype` (
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `billtype`
+--
+
+CREATE TABLE IF NOT EXISTS `billtype` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+  `toptypeId` int(11) DEFAULT NULL COMMENT '顶层类型',
+  PRIMARY KEY (`id`),
+  KEY `toptypeId` (`toptypeId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
--- ----------------------------
--- Records of billtype
--- ----------------------------
-INSERT INTO `billtype` VALUES ('1', '阅读');
-INSERT INTO `billtype` VALUES ('2', '编码');
-INSERT INTO `billtype` VALUES ('3', '学习');
-INSERT INTO `billtype` VALUES ('4', '电影');
-INSERT INTO `billtype` VALUES ('5', '文档');
-INSERT INTO `billtype` VALUES ('6', '纪录片');
-INSERT INTO `billtype` VALUES ('7', '会议');
-INSERT INTO `billtype` VALUES ('8', '户外');
-INSERT INTO `billtype` VALUES ('9', '体育');
-INSERT INTO `billtype` VALUES ('10', '思考');
-INSERT INTO `billtype` VALUES ('14', '教育');
-INSERT INTO `billtype` VALUES ('15', '游戏');
+--
+-- 转存表中的数据 `billtype`
+--
+
+INSERT INTO `billtype` (`id`, `name`, `toptypeId`) VALUES
+(1, '阅读', 2),
+(2, '编码', 1),
+(3, '学习', 2),
+(4, '影音', 3),
+(5, '文档', 1),
+(6, '纪录片', 3),
+(7, '会议', 1),
+(8, '户外活动', 3),
+(9, '体育锻炼', 3),
+(10, '思考学习', 2),
+(14, '教育', 4),
+(15, '游戏', 3),
+(16, '其他工作', 1);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

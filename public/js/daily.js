@@ -147,6 +147,11 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
     var loadingTypeTimeBills = $http.get('/api/time-bills/type/daily/' + offset);
     loadingTypeTimeBills.success(function(data, status, headers, config) {
       $scope.types = data;
+      var maxTypeTime = 0;
+      for(var i=0; i<data.length; i++) {
+        maxTypeTime = Math.max(maxTypeTime, data[i].dailyTime);
+      }
+      $scope.maxTypeTime = maxTypeTime;
     });
   }
 

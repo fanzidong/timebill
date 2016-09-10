@@ -8,6 +8,7 @@ var express = require('express'),
   session = require('express-session'),
   flash = require('express-flash'),
   passport = require('passport'),
+  //qqStrategy = require('passport-qq'),
   bodyParser = require('body-parser'),
   methodOverride = require('method-override'),
   errorHandler = require('express-error-handler'),
@@ -29,9 +30,20 @@ app.set('port', process.env.PORT || 8000);
 app.set('views', __dirname + '/views');
 app.engine('.html', require('ejs').__express);
 app.set('view engine', 'html');
-//app.use(cookieParser());
-//app.use(passport.initialize());
-//app.use(passport.session());
+app.use(cookieParser());
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+// passport.use(new qqStrategy({
+//     clientID: 'wxf6133762bb42e5c6',
+//     clientSecret: 'a70d3db0458f8f9fdbbca5e1d5b0ac1f',
+//     callbackURL: 'http://localhost:8000/auth/wechat/callback'
+//   },
+//   function(accessToken, refreshToken, profile, done) {
+//     return done(err,profile);
+//   }
+// ));
+
 //app.use(flash());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -57,6 +69,13 @@ if (env === 'production') {
 /**
  * Routes
  */
+
+// app.get('/auth/qq', passport.authenticate('qq'));
+// app.get('/auth/qq/callback', passport.authenticate('qq', {
+//   failureRedirect: '/login'
+// }), function(req, res) {
+//   res.redirect('/');
+// });
 
 // serve index and view partials
 app.get('/', routes.index);
