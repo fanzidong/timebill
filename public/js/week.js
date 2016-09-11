@@ -26,9 +26,11 @@ angular.module('timeBill.week', ['ngRoute'])
     var effectiveTotalTime = 0;
     for(var i=0, len=data.length; i<len; i++) {
       duration += data[i].durationTime;
+      effectiveTotalTime += data[i].effectiveTime;
     }
     $scope.totalTime = duration;
-    $scope.avgTime = duration / data.length;
+    $scope.effectiveTotalTime = effectiveTotalTime;
+    $scope.avgTime = effectiveTotalTime / data.length;
   });
   loadingWeekDailySummayInfo.error(function() {
 

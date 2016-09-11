@@ -13,7 +13,7 @@ var TimeBill = function(options) {
 }
 
 TimeBill.loadTimeBills = function(data, callback) {
-  var querySql = 'SELECT timebill.*, billtype.`name` typeName, billType.topTypeId FROM timebill LEFT JOIN billtype ON timebill.typeId=billtype.id WHERE 1=1';
+  var querySql = 'SELECT timebill.*, billtype.`name` typeName, billtype.toptypeId topTypeId FROM timebill LEFT JOIN billtype ON timebill.typeId=billtype.id WHERE 1=1';
   if(data.startTime) {
     querySql += ' AND startTime >= "' + data.startTime + '"';
   }
@@ -56,7 +56,7 @@ TimeBill.prototype.delete = function(callback) {
 };
 
 TimeBill.getDailySummayInfo = function(data, callback) {
-  var querySql = 'SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) durationTime FROM timebill A';
+  var querySql = 'SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) durationTime, SUM(CASE WHEN B.toptypeId IN (1,2) THEN A.durationTime ELSE 0 END) effectiveTime FROM timebill A LEFT JOIN billtype B ON A.typeId=B.id';
   querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
   querySql += ' GROUP BY date ORDER BY date';
   db.exec(querySql, [], function(err, rows) {
@@ -65,7 +65,7 @@ TimeBill.getDailySummayInfo = function(data, callback) {
 };
 
 TimeBill.getWeekSummayInfo = function(data, callback) {
-  var querySql = 'SELECT DATE_FORMAT(A.date, "%Y-%u") name, A.date weekStartDay, SUM(A.dailyTime) durationTime, COUNT(*) dayNum FROM (SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) dailyTime FROM timebill A';
+  var querySql = 'SELECT DATE_FORMAT(A.date, "%Y-%u") name, A.date weekStartDay, SUM(A.dailyTime) durationTime, SUM(A.effectiveTime) effectiveTime, COUNT(*) dayNum FROM (SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) dailyTime, SUM(CASE WHEN B.toptypeId IN (1,2) THEN A.durationTime ELSE 0 END) effectiveTime FROM timebill A LEFT JOIN billtype B ON A.typeId=B.id';
   querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
   querySql += ' GROUP BY date) A GROUP BY name';
   db.exec(querySql, [], function(err, rows) {
@@ -74,7 +74,7 @@ TimeBill.getWeekSummayInfo = function(data, callback) {
 };
 
 TimeBill.getMonthSummayInfo = function(data, callback) {
-  var querySql = 'SELECT DATE_FORMAT(A.date, "%Y-%m") name, SUM(A.dailyTime) durationTime, COUNT(*) dayNum FROM (SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) dailyTime FROM timebill A';
+  var querySql = 'SELECT DATE_FORMAT(A.date, "%Y-%m") name, SUM(A.dailyTime) durationTime, SUM(A.effectiveTime) effectiveTime, COUNT(*) dayNum FROM (SELECT DATE_FORMAT(A.startTime, "%Y-%m-%d") date, SUM(A.durationTime) dailyTime, SUM(CASE WHEN B.toptypeId IN (1,2) THEN A.durationTime ELSE 0 END) effectiveTime FROM timebill A LEFT JOIN billtype B ON A.typeId=B.id';
   querySql += ' WHERE startTime BETWEEN "' + data.startTime + '" AND "' + data.endTime + '"';
   querySql += ' GROUP BY date) A GROUP BY name';
   db.exec(querySql, [], function(err, rows) {

@@ -22,13 +22,17 @@ angular.module('timeBill.year', ['ngRoute'])
     $scope.months = data;
     var duration = 0,
       totalNum = 0;
+
+    var effectiveTotalTime = 0;
     for(var i=0, len=data.length; i<len; i++) {
       duration += data[i].durationTime;
+      effectiveTotalTime += data[i].effectiveTime;
       totalNum += data[i].dayNum;
     }
     $scope.totalTime = duration;
+    $scope.effectiveTotalTime = effectiveTotalTime;
     $scope.totalDayNum = totalNum;
-    $scope.avgTime = duration / totalNum;
+    $scope.avgTime = effectiveTotalTime / totalNum;
   });
   loadingWeekDailySummayInfo.error(function() {
 

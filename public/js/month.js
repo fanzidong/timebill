@@ -24,8 +24,11 @@ angular.module('timeBill.month', ['ngRoute'])
       dayNum = 0,
       year,
       week;
+
+    var effectiveTotalTime = 0;
     for(var i=0, len=data.length; i<len; i++) {
       duration += data[i].durationTime;
+      effectiveTotalTime += data[i].effectiveTime;
       dayNum += data[i].dayNum;
       year = data[i].name.split('-')[0],
       week = data[i].name.split('-')[1];
@@ -33,7 +36,8 @@ angular.module('timeBill.month', ['ngRoute'])
       data[i].endDay = moment().year(year).isoWeek(week).endOf('isoWeek').format('YYYY-MM-DD');
     }
     $scope.totalTime = duration;
-    $scope.avgTime = duration / dayNum;
+    $scope.effectiveTotalTime = effectiveTotalTime;
+    $scope.avgTime = effectiveTotalTime / dayNum;
   });
   loadingWeekDailySummayInfo.error(function() {
 
