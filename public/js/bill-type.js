@@ -1,11 +1,13 @@
 'use strict';
 
-angular.module('timeBill.billType', ['ngRoute'])
+angular.module('timeBill.billType', ['ui.router'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/bill-type', {
+.config(['$stateProvider', function($stateProvider) {
+  $stateProvider.state('home.bill-type', {
+    url: '/bill-type',
     templateUrl: 'partials/bill-type',
-    controller: 'billTypeContrl'
+    controller: 'billTypeContrl',
+    needLogin: true
   });
 }])
 

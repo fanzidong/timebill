@@ -1,6 +1,7 @@
 /*
  * Serve JSON to our AngularJS client
  */
+var User = require('../model/User.js');
 var BillType = require('../model/BillType.js');
 var TopType = require('../model/TopType.js');
 var TimeBill = require('../model/TimeBill.js');
@@ -22,6 +23,7 @@ exports.loadTopTypes = function(req, res) {
 };
 
 exports.billTypes = function(req, res) {
+  console.log(req.session)
   BillType.loadAllBillTypes(function(err, rows) {
     if(err) {
       return;
@@ -246,9 +248,13 @@ exports.loadMonthTypeSummaryInfo = function(req, res) {
 }
 
 exports.loadYearDailySummayInfo = function(req, res) {
+  var today = moment(),
+    offset = req.params.offset,
+    queryYear = today.add(offset, 'Y');
+
   TimeBill.getMonthSummayInfo({
-    startTime: moment().startOf('year').format('YYYY-MM-DD 00:00:00'),
-    endTime: moment().endOf('year').format('YYYY-MM-DD 23:59:59')
+    startTime: queryYear.startOf('year').format('YYYY-MM-DD 00:00:00'),
+    endTime: queryYear.endOf('year').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
     if(err) {
       res.status(500).json({

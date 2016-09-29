@@ -1,16 +1,18 @@
 'use strict';
 
-angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.dateTimeInput'])
+angular.module('timeBill.daily', ['ui.bootstrap.datetimepicker', 'ui.dateTimeInput', 'ui.router'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/daily/:offset', {
+.config(['$stateProvider', function( $stateProvider) {
+  $stateProvider.state('home.daily', {
+    url: '/daily/:offset',
     templateUrl: 'partials/daily',
-    controller: 'dailyContrl'
+    controller: 'dailyContrl',
+    needLogin: true
   });
 }])
 
-.controller('dailyContrl', ['$scope', '$http', '$filter','$routeParams', function($scope, $http, $filter, $routeParams) {
-  var offset = parseInt($routeParams.offset || 0, 10);
+.controller('dailyContrl', ['$scope', '$http', '$filter','$stateParams', '$state', function($scope, $http, $filter, $stateParams, $state) {
+  var offset = parseInt($stateParams.offset || 0, 10);
   $scope.offset = offset;
   $scope.today = moment().add(offset, 'd').format('YYYY年MM月DD日');
 
@@ -162,5 +164,9 @@ angular.module('timeBill.daily', ['ngRoute', 'ui.bootstrap.datetimepicker', 'ui.
       $scope.maxTypeTime = maxTypeTime;
     });
   }
+
+  $scope.$on('401', function(d,data) {
+      $state.go('login');
+  });
 
 }]);

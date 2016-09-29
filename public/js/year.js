@@ -1,16 +1,18 @@
 'use strict';
 
-angular.module('timeBill.year', ['ngRoute'])
+angular.module('timeBill.year', ['ui.router'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/year/:offset', {
+.config(['$stateProvider', function($stateProvider) {
+  $stateProvider.state('home.year', {
+    url: '/year/:offset',
     templateUrl: 'partials/year',
-    controller: 'yearContrl'
+    controller: 'yearContrl',
+    needLogin: true
   });
 }])
 
-.controller('yearContrl', ['$scope', '$http','$routeParams', function($scope, $http, $routeParams) {
-  var offset = parseInt($routeParams.offset || 0, 10),
+.controller('yearContrl', ['$scope', '$http','$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+  var offset = parseInt($stateParams.offset || 0, 10),
     thisYear = moment().add(offset, 'Y');
 
   $scope.offset = offset;
@@ -52,6 +54,10 @@ angular.module('timeBill.year', ['ngRoute'])
   });
   loadingWeekTypeSummayInfo.error(function() {
 
+  });
+
+  $scope.$on('401', function(d,data) {
+      $state.go('login');
   });
 
 }]);

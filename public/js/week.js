@@ -1,16 +1,18 @@
 'use strict';
 
-angular.module('timeBill.week', ['ngRoute'])
+angular.module('timeBill.week', ['ui.router'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/week/:offset', {
+.config(['$stateProvider', function($stateProvider) {
+  $stateProvider.state('home.week', {
+    url: '/week/:offset',
     templateUrl: 'partials/week',
-    controller: 'weekContrl'
+    controller: 'weekContrl',
+    needLogin: true
   });
 }])
 
-.controller('weekContrl', ['$scope', '$http','$routeParams', function($scope, $http, $routeParams) {
-  var offset = parseInt($routeParams.offset || 0, 10),
+.controller('weekContrl', ['$scope', '$http','$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+  var offset = parseInt($stateParams.offset || 0, 10),
     today = moment().add(offset, 'w');
 
   $scope.offset = offset;
@@ -50,6 +52,10 @@ angular.module('timeBill.week', ['ngRoute'])
   });
   loadingWeekTypeSummayInfo.error(function() {
 
+  });
+
+  $scope.$on('401', function(d,data) {
+      $state.go('login');
   });
 
 }]);

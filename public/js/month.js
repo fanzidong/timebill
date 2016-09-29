@@ -1,16 +1,18 @@
 'use strict';
 
-angular.module('timeBill.month', ['ngRoute'])
+angular.module('timeBill.month', ['ui.router'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/month/:offset', {
+.config(['$stateProvider', function($stateProvider) {
+  $stateProvider.state('home.month', {
+    url: '/month/:offset',
     templateUrl: 'partials/month',
-    controller: 'monthContrl'
+    controller: 'monthContrl',
+    needLogin: true
   });
 }])
 
-.controller('monthContrl', ['$scope', '$http','$routeParams', function($scope, $http, $routeParams) {
-  var offset = parseInt($routeParams.offset || 0, 10),
+.controller('monthContrl', ['$scope', '$http','$stateParams', '$state', function($scope, $http, $stateParams, $state) {
+  var offset = parseInt($stateParams.offset || 0, 10),
     thisMonth = moment().add(offset, 'M');
 
   $scope.offset = offset;
@@ -57,6 +59,10 @@ angular.module('timeBill.month', ['ngRoute'])
   });
   loadingWeekTypeSummayInfo.error(function() {
 
+  });
+
+  $scope.$on('401', function(d,data) {
+      $state.go('login');
   });
 
 }]);
