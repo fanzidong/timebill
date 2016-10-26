@@ -105,6 +105,30 @@ app.post('/logout', function(req, res) {
   });
 });
 
+app.post('/api/register', function(req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+
+  var md5 = crypto.createHash('md5');
+  md5.update(password + username);
+  var _pwd = md5.digest('hex');
+
+  //生成用户
+  var user = new User(null, username, _pwd);
+  user.save(function(err) {
+    if(err) {
+      res.status(500).json({
+        msg: err
+      });
+    } else {
+      res.json({
+        msg: '注册成功'
+      });
+    }
+  });
+
+});
+
 //app.all('api/time-bills/*', isLoggedIn);
 //app.get('/api/time-bills/daily/:offset', isLoggedIn);
 app.get('/api/time-bills/daily/:offset', isLoggedIn, api.loadDailyTimeBills);

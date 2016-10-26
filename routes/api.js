@@ -23,8 +23,9 @@ exports.loadTopTypes = function(req, res) {
 };
 
 exports.billTypes = function(req, res) {
-  console.log(req.session)
-  BillType.loadAllBillTypes(function(err, rows) {
+  BillType.loadAllBillTypes({
+    userId: req.session.user.id
+  }, function(err, rows) {
     if(err) {
       return;
     }
@@ -34,6 +35,7 @@ exports.billTypes = function(req, res) {
 
 exports.addBillTypes = function(req, res) {
   var billType = new BillType(null, req.body.name, req.body.topTypeId);
+  billType.userId = req.session.user.id;
   billType.save(function(err) {
     if(err) {
       res.status(500).json({
@@ -82,6 +84,7 @@ exports.loadDailyTimeBills = function(req, res) {
     offset = req.params.offset,
     queryDay = today.add(offset, 'd');
   TimeBill.loadTimeBills({
+    userId: req.session.user.id,
     startTime: queryDay.format('YYYY-MM-DD 00:00:00'),
     endTime: queryDay.format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
@@ -100,6 +103,7 @@ exports.loadDailyTypeSummaryInfo = function(req, res) {
     offset = req.params.offset,
     queryDay = today.add(offset, 'd');
   TimeBill.getTypeSummaryInfo({
+    userId: req.session.user.id,
     startTime: queryDay.format('YYYY-MM-DD 00:00:00'),
     endTime: queryDay.format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
@@ -114,7 +118,9 @@ exports.loadDailyTypeSummaryInfo = function(req, res) {
 }
 
 exports.loadAllTimeBills = function(req, res) {
-  TimeBill.loadTimeBills({}, function(err, rows) {
+  TimeBill.loadTimeBills({
+    userId: req.session.user.id
+  }, function(err, rows) {
     if(err) {
       res.status(500).json({
         msg: err
@@ -127,6 +133,7 @@ exports.loadAllTimeBills = function(req, res) {
 
 exports.addTimeBill = function(req, res) {
   var timeBill = new TimeBill(req.body);
+  timeBill.userId = req.session.user.id;
   timeBill.save(function(err) {
     if(err) {
       res.status(500).json({
@@ -177,6 +184,7 @@ exports.loadWeekDailySummayInfo = function(req, res) {
     offset = req.params.offset,
     queryWeekDay = today.add(offset, 'w');
   TimeBill.getDailySummayInfo({
+    userId: req.session.user.id,
     startTime: queryWeekDay.startOf('isoWeek').format('YYYY-MM-DD 00:00:00'),
     endTime: queryWeekDay.endOf('isoWeek').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
@@ -196,6 +204,7 @@ exports.loadWeekTypeSummaryInfo = function(req, res) {
     queryWeekDay = today.add(offset, 'w');
 
   TimeBill.getTypeSummaryInfo({
+    userId: req.session.user.id,
     startTime: queryWeekDay.startOf('isoWeek').format('YYYY-MM-DD 00:00:00'),
     endTime: queryWeekDay.endOf('isoWeek').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
@@ -215,6 +224,7 @@ exports.loadMonthDailySummayInfo = function(req, res) {
     queryMonth = today.add(offset, 'M');
 
   TimeBill.getWeekSummayInfo({
+    userId: req.session.user.id,
     startTime: queryMonth.startOf('month').format('YYYY-MM-DD 00:00:00'),
     endTime: queryMonth.endOf('month').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
@@ -234,6 +244,7 @@ exports.loadMonthTypeSummaryInfo = function(req, res) {
     queryMonth = today.add(offset, 'M');
 
   TimeBill.getTypeSummaryInfo({
+    userId: req.session.user.id,
     startTime: queryMonth.startOf('month').format('YYYY-MM-DD 00:00:00'),
     endTime: queryMonth.endOf('month').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
@@ -253,6 +264,7 @@ exports.loadYearDailySummayInfo = function(req, res) {
     queryYear = today.add(offset, 'Y');
 
   TimeBill.getMonthSummayInfo({
+    userId: req.session.user.id,
     startTime: queryYear.startOf('year').format('YYYY-MM-DD 00:00:00'),
     endTime: queryYear.endOf('year').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {
@@ -268,6 +280,7 @@ exports.loadYearDailySummayInfo = function(req, res) {
 
 exports.loadYearTypeSummaryInfo = function(req, res) {
   TimeBill.getTypeSummaryInfo({
+    userId: req.session.user.id,
     startTime: moment().startOf('year').format('YYYY-MM-DD 00:00:00'),
     endTime: moment().endOf('year').format('YYYY-MM-DD 23:59:59')
   }, function(err, rows) {

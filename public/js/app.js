@@ -98,7 +98,6 @@ app.factory('AuthService', ['$http', 'Session', '$location', 'md5', function($ht
 .controller('ApplicationController', function ($scope, AuthService, $localStorage, $state, $http) {
   $scope.currentUser = $localStorage.user || {};
   $scope.setCurrentUser = function (user) {
-    console.log(user)
     $scope.currentUser = user;
   };
 

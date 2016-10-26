@@ -1,4 +1,8 @@
 /* app css stylesheet */
+html, body, #view-container{
+  height: 100%;
+}
+
 .toolbar {
   margin: 20px 0;
 }
@@ -19,4 +23,30 @@
   max-width: 330px;
   padding: 15px;
   margin: 0 auto;
+}
+
+#login-container, #register-container {
+  background-image: url('../img/bg.png');
+  background-size: 100px;
+  background-repeat: repeat;
+  height: 100%;
+}
+
+#register-dialog {
+  left: 50%;
+  width: 450px;
+  margin-left: -225px;
+  margin-top: 100px;
+  position: absolute;
+}
+
+.top0 {
+  top: 0px;
+}
+
+.divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
 }

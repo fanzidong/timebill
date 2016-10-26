@@ -14,7 +14,7 @@ BillType.prototype.save = function(callback) {
   if(this.id) {
     saveSql = util.format('UPDATE billtype SET name="%s", topTypeId=%d WHERE id=%d', this.name, this.topTypeId, this.id);
   } else {
-    saveSql = util.format('INSERT INTO billtype(`name`, topTypeId) VALUES("%s", %d)', this.name, this.topTypeId);
+    saveSql = util.format('INSERT INTO billtype(`name`, topTypeId, userId) VALUES("%s", %d, %d)', this.name, this.topTypeId, this.userId);
   }
 
   db.exec(saveSql, [], function(err, rows) {
@@ -29,8 +29,8 @@ BillType.prototype.delete = function(callback) {
   });
 };
 
-BillType.loadAllBillTypes = function(callback) {
-  db.exec('SELECT billtype.id, billtype.name, billtype.toptypeId topTypeId, toptype.name topTypeName FROM billtype LEFT JOIN toptype ON billtype.toptypeId=toptype.id ORDER BY toptype.id asc, billtype.id asc', [], function(err, rows) {
+BillType.loadAllBillTypes = function(data, callback) {
+  db.exec('SELECT billtype.id, billtype.name, billtype.toptypeId topTypeId, toptype.name topTypeName FROM billtype LEFT JOIN toptype ON billtype.toptypeId=toptype.id WHERE userId=' + data.userId + ' ORDER BY toptype.id asc, billtype.id asc', [], function(err, rows) {
     if(err) {
       callback(err);
       return;
