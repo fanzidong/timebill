@@ -3,6 +3,7 @@
 // Declare app level module which depends on filters, and services
 
 var app = angular.module('timeBill', [
+  'ngMaterial',
   'ngRoute',
   'ui.router',
   'angular-md5',

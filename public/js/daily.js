@@ -14,7 +14,10 @@ angular.module('timeBill.daily', ['ui.bootstrap.datetimepicker', 'ui.dateTimeInp
 .controller('dailyContrl', ['$scope', '$http', '$filter','$stateParams', '$state', function($scope, $http, $filter, $stateParams, $state) {
   var offset = parseInt($stateParams.offset || 0, 10);
   $scope.offset = offset;
-  $scope.today = moment().add(offset, 'd').format('YYYY年MM月DD日');
+  var date = moment().add(offset, 'd');
+  var weekday = date.format('e');
+  var weekdays = ['天', '一', '二', '三', '四', '五', '六'];
+  $scope.today = date.format('YYYY年MM月DD日 星期') + weekdays[weekday];
 
   // 加载所有账单类型
   var loadingBillTypes = $http.get('/api/bill-types');
