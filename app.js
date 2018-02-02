@@ -34,8 +34,9 @@ app.set('view engine', 'html');
 app.use(cookieParser());
 app.use(session({
   secret: 'timebillsession',
-  resave: false,
-  saveUninitialized: true,
+  resave: true,
+  rolling: true,
+  saveUninitialized: false,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000
   }
